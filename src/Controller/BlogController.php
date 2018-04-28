@@ -7,17 +7,26 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use App\Entity\Post;
 use App\Form\PostType;
+use App\Form\DeletePostType;
 
 class BlogController extends Controller
 {
     /**
     * @Route("/", name="blog_index")
+    * @Method("GET")
     */
     public function index()
     {
-        return $this->render('Blog/index.html.twig');
+        $entityManager = $this->getDoctrine()->getManager();
+        
+        $posts = $entityManager->getRepository(Post::class)->findAll();
+        
+        return $this->render('Blog/index.html.twig', array(
+            'posts' => $posts,
+        ));
     }
     
     /**
@@ -36,6 +45,11 @@ class BlogController extends Controller
         
         if ($form->isSubmitted() && $form->isValid())
         {
+            $slug = strtolower($form->getData()->getTitle());
+            $slug = preg_replace("/[^a-z0-9_\s-]/", "", $slug);
+            $slug = preg_replace("/[\s_]/", "-", $slug);
+            $post->setSlug($slug);
+            
             $post = $form->getData();
             
             $entityManager = $this->getDoctrine()->getManager();
@@ -48,5 +62,82 @@ class BlogController extends Controller
         return $this->render('Blog/new.html.twig', array(
             'form' => $form->createView(),
         ));
+    }
+    
+    /**
+    * @Route("/{slug}", name="blog_show")
+    * @Method("GET")
+    */
+    public function show(Post $post)
+    {        
+        $deleteForm = $this->createForm(DeletePostType::class, $post, array(
+            'action' => $this->generateUrl('blog_delete', array(
+                'slug' => $post->getSlug(),
+            )),
+            'method' => 'DELETE',
+        ));
+        
+        return $this->render('Blog/show.html.twig', array(
+            'post' => $post,
+            'delete_form' => $deleteForm->createView(),
+        ));
+    }
+    
+    /**
+    * @Route("/{slug}/edit", name="blog_edit")
+    * @Method({"GET", "POST"})
+    */
+    public function edit(Request $request, Post $post)
+    {
+        $form = $this->createForm(PostType::class, $post);
+        
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $slug = strtolower($form->getData()->getTitle());
+            $slug = preg_replace("/[^a-z0-9_\s-]/", "", $slug);
+            $slug = preg_replace("/[\s_]/", "-", $slug);
+            $post->setSlug($slug);
+            
+            $post = $form->getData();
+            
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($post);
+            $entityManager->flush();
+            
+            return $this->redirectToRoute('blog_show', array(
+                'slug' => $post->getSlug(),
+            ));
+        }
+        
+        return $this->render('Blog/edit.html.twig', array(
+            'post' => $post,
+            'form' => $form->createView(),
+        ));
+    }
+    
+    /**
+    * @Route("/{slug}", name="blog_delete")
+    * @Method({"DELETE"})
+    */
+    public function delete(Request $request, Post $post)
+    {
+        $form = $this->createForm(DeletePostType::class, $post, array(
+            'action' => $this->generateUrl('blog_delete', array(
+                'slug' => $post->getSlug(),
+            )),
+            'method' => 'DELETE',
+        ));
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($post);
+            $entityManager->flush();
+        }
+        
+        return $this->redirectToRoute('blog_index');
     }
 }

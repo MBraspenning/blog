@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<h1>Show Page</h1>
+
+<p>{{ post.title }}</p>
+
+{{ form_start(delete_form) }}
+{{ form_widget(delete_form) }}
+{{ form_end(delete_form) }}
+
+{% endblock %}

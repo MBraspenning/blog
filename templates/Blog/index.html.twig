@@ -4,4 +4,8 @@
 
 <h1>Index Page</h1>
 
+{% for post in posts %}
+    <p>{{ post.title }}</p>
+{% endfor %}
+
 {% endblock %}

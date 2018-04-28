@@ -18,6 +18,17 @@ class PostRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Post::class);
     }
+    
+    public function findPostByDateAndSlug($date, $slug)
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.date_added = :date')
+            ->setParameter('date', $date)
+            ->andWhere('p.slug = :slug')
+            ->setParameter('slug', $slug)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 
 //    /**
 //     * @return Post[] Returns an array of Post objects
