@@ -16,7 +16,7 @@ use App\Form\DeletePostType;
 class BlogController extends Controller
 {
     /**
-    * @Route("/", name="blog_index")
+    * @Route("/blog", name="blog_index")
     * @Method("GET")
     */
     public function index()
