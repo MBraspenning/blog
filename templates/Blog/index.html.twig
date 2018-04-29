@@ -5,7 +5,11 @@
 <h1>Index Page</h1>
 
 {% for post in posts %}
-    <p>{{ post.title }}</p>
+    <p>
+        <a href="{{ path('blog_show', { 'slug': post.slug }) }}">
+            {{ post.title }}
+        </a>
+    </p>
 {% endfor %}
 
 {% endblock %}

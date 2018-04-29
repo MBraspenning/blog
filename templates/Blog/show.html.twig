@@ -6,8 +6,11 @@
 
 <p>{{ post.title }}</p>
 
-{{ form_start(delete_form) }}
-{{ form_widget(delete_form) }}
-{{ form_end(delete_form) }}
+{% if is_granted('ROLE_ADMIN') %}
+    <a href="{{ path('blog_edit', { 'slug': post.slug }) }}">Edit</a>
+    {{ form_start(delete_form) }}
+    {{ form_widget(delete_form) }}
+    {{ form_end(delete_form) }}    
+{% endif %}
 
 {% endblock %}

@@ -4,8 +4,25 @@
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
     </head>
     <body>
+        {% if is_granted('ROLE_ADMIN') %}
+        <div>
+            <ul>
+                <li>
+                    <a href="/">Index</a>    
+                </li>
+                <li>
+                    <a href="/blog/new">Add Post</a>
+                </li>
+                <li>
+                    <a href="/logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+        {% endif %}
+        
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
     </body>

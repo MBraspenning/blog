@@ -8,6 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use App\Entity\Post;
 use App\Form\PostType;
 use App\Form\DeletePostType;
@@ -30,7 +31,8 @@ class BlogController extends Controller
     }
     
     /**
-    * @Route("/new", name="blog_create")
+    * @Route("/blog/new", name="blog_create")
+    * @Security("has_role('ROLE_ADMIN')")
     * @Method({"GET", "POST"})
     */
     public function create(Request $request)
@@ -65,7 +67,7 @@ class BlogController extends Controller
     }
     
     /**
-    * @Route("/{slug}", name="blog_show")
+    * @Route("/blog/{slug}", name="blog_show")
     * @Method("GET")
     */
     public function show(Post $post)
@@ -84,7 +86,8 @@ class BlogController extends Controller
     }
     
     /**
-    * @Route("/{slug}/edit", name="blog_edit")
+    * @Route("/blog/{slug}/edit", name="blog_edit")
+    * @Security("has_role('ROLE_ADMIN')")
     * @Method({"GET", "POST"})
     */
     public function edit(Request $request, Post $post)
@@ -118,7 +121,8 @@ class BlogController extends Controller
     }
     
     /**
-    * @Route("/{slug}", name="blog_delete")
+    * @Route("/blog/{slug}", name="blog_delete")
+    * @Security("has_role('ROLE_ADMIN')")
     * @Method({"DELETE"})
     */
     public function delete(Request $request, Post $post)
