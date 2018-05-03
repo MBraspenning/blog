@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use App\Entity\Post;
 use App\Form\PostType;
 use App\Form\DeletePostType;
@@ -67,10 +68,11 @@ class BlogController extends Controller
     }
     
     /**
-    * @Route("/blog/{slug}", name="blog_show")
+    * @Route("/blog/{date_added}/{slug}", name="blog_show", requirements={"date_added" = ".+"})
+    * @ParamConverter("date_added", options={"format": "Y/m/d"})
     * @Method("GET")
     */
-    public function show(Post $post)
+    public function show(Post $post, \DateTime $date_added)
     {        
         $deleteForm = $this->createForm(DeletePostType::class, $post, array(
             'action' => $this->generateUrl('blog_delete', array(

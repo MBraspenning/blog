@@ -6,7 +6,7 @@
 
 {% for post in posts %}
     <p>
-        <a href="{{ path('blog_show', { 'slug': post.slug }) }}">
+        <a href="{{ path('blog_show', { 'date_added':post.dateAdded|date('Y/m/d'), 'slug': post.slug }) }}">
             {{ post.title }}
         </a>
     </p>
