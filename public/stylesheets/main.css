@@ -1,0 +1,11 @@
+.navbar {
+    background-color: #30415D;
+}
+
+.nav-link, .nav-item {
+    display: inline;
+    padding: 1.2em 1em;
+    color: white;
+    
+    font-size: 1.1em;
+}
