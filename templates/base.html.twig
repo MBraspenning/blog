@@ -5,8 +5,11 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{{ asset('stylesheets/main.css') }}">
     </head>
     <body>
+        {% block navigation %}
+
         {% if is_granted('ROLE_ADMIN') %}
         <div>
             <ul>
@@ -22,7 +25,8 @@
             </ul>
         </div>
         {% endif %}
-        
+
+        {% endblock %}               
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
     </body>
