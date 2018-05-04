@@ -5,30 +5,41 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700" rel="stylesheet">
         <link rel="stylesheet" href="{{ asset('stylesheets/main.css') }}">
     </head>
     <body>
         {% block navigation %}        
-        <nav class="navbar navbar-expand-lg">
-            <div>
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/blog">Blog</a>
-                    </li>
-                    {% if is_granted('ROLE_ADMIN') %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="/logout">Logout</a>
-                    </li>
-                    {% endif %}
-                </ul>
+        <nav id="navigation">
+            <div class="wrapper">
+            <div class="row">
+                <div class="col-md-8 col-no-padding">
+                    <ul>
+                        <li>
+                            <a href="/" id="nav-brand">Matthijs Braspenning</a>
+                        </li>
+                    </ul>    
+                </div>
+                <div class="col-md-4 side-bar">                    
+                    <ul>
+                        <li class="nav-items-right">
+                            <a href="/">Home</a>
+                        </li>
+                        <li class="nav-items-right">
+                            <a href="/blog">Blog</a>
+                        </li>
+                    </ul>    
+                </div>
+            </div>
+            
             </div>
         </nav>
         {% endblock %} 
-                      
+        
+        <div class="wrapper">
         {% block body %}{% endblock %}
+        </div>
+        
         {% block javascripts %}{% endblock %}
     </body>
 </html>

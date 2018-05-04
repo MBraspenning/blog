@@ -2,14 +2,19 @@
 
 {% block body %}
 
-<h1>Index Page</h1>
-
-{% for post in posts %}
-    <p>
-        <a href="{{ path('blog_show', { 'date_added':post.dateAdded|date('Y/m/d'), 'slug': post.slug }) }}">
-            {{ post.title }}
-        </a>
-    </p>
-{% endfor %}
+<div class="row">
+    <div class="col-md-8">
+        <h1>Index Page</h1>    
+    </div>
+    <div class="col-md-4">
+        {% for post in posts %}
+            <p>
+                <a href="{{ path('blog_show', { 'date_added':post.dateAdded|date('Y/m/d'), 'slug': post.slug }) }}">
+                    {{ post.title }}
+                </a>
+            </p>
+        {% endfor %}
+    </div>
+</div>
 
 {% endblock %}
