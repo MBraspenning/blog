@@ -37,7 +37,24 @@
         {% endblock %} 
         
         <div class="wrapper">
-        {% block body %}{% endblock %}
+        {% block body %}
+           <div class="row">
+                <div class="col-md-8 main-content">
+                    {% block content %}{% endblock %}    
+                </div>
+                <div class="col-md-4 side-bar">
+                    {% block sidebar %}
+                        {% for post in posts %}
+                            <p>
+                                <a href="{{ path('blog_show', { 'date_added':post.dateAdded|date('Y/m/d'), 'slug': post.slug }) }}">
+                                    {{ post.title }}
+                                </a>
+                            </p>
+                        {% endfor %}
+                    {% endblock %}
+                </div>
+            </div>
+        {% endblock %}
         </div>
         
         {% block javascripts %}{% endblock %}
