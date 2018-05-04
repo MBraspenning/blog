@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
         <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700" rel="stylesheet">
         <link rel="stylesheet" href="{{ asset('stylesheets/main.css') }}">
@@ -20,7 +21,7 @@
                         </li>
                     </ul>    
                 </div>
-                <div class="col-md-4 side-bar">                    
+                <div class="col-md-4 side-bar-nav">                    
                     <ul>
                         <li class="nav-items-right">
                             <a href="/">Home</a>
@@ -44,13 +45,16 @@
                 </div>
                 <div class="col-md-4 side-bar">
                     {% block sidebar %}
-                        {% for post in posts %}
-                            <p>
-                                <a href="{{ path('blog_show', { 'date_added':post.dateAdded|date('Y/m/d'), 'slug': post.slug }) }}">
-                                    {{ post.title }}
-                                </a>
-                            </p>
-                        {% endfor %}
+                        <h6>Recent Posts</h6>
+                        <ul id="sidebar-list">
+                            {% for post in posts %}
+                                <li class="sidebar-list-item">
+                                    <a class="sidebar-list-item-link" href="{{ path('blog_show', { 'date_added':post.dateAdded|date('Y/m/d'), 'slug': post.slug }) }}">
+                                        <i class="fas fa-angle-right"></i>{{ post.title }}
+                                    </a>
+                                </li>
+                            {% endfor %}    
+                        </ul>                        
                     {% endblock %}
                 </div>
             </div>
