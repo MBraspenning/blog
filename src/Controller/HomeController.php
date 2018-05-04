@@ -18,9 +18,11 @@ class HomeController extends Controller
         $entityManager = $this->getDoctrine()->getManager();
         
         $posts = $entityManager->getRepository(Post::class)->findLatest();
+        $latestPosts = $entityManager->getRepository(Post::class)->findLatest();
         
         return $this->render('Home/index.html.twig', array(
             'posts' => $posts,
+            'latestPosts' => $latestPosts,
         ));
     }
 }

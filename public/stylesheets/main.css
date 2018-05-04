@@ -70,6 +70,7 @@ body {
 
 .side-bar h6 {
     margin-bottom: 20px;
+    color: #30415D;
 }
 
 #sidebar-list {
@@ -80,11 +81,13 @@ body {
 .sidebar-list-item {
     padding: 5px 0;
     font-size: .8em;
+    color: #666;
 }
 
 .sidebar-list-item a {
     color: inherit;
     text-decoration: none;
+    font-weight: 300;
 }
 
 .sidebar-list-item-link:hover {
@@ -92,5 +95,6 @@ body {
 }
 
 .fa-angle-right {
+    color: #CF6766;
     margin-right: 10px;
 }

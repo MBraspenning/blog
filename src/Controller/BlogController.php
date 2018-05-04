@@ -25,9 +25,11 @@ class BlogController extends Controller
         $entityManager = $this->getDoctrine()->getManager();
         
         $posts = $entityManager->getRepository(Post::class)->findAll();
+        $latestPosts = $entityManager->getRepository(Post::class)->findLatest();
         
         return $this->render('Blog/index.html.twig', array(
             'posts' => $posts,
+            'latestPosts' => $latestPosts,
         ));
     }
     
@@ -81,9 +83,13 @@ class BlogController extends Controller
             'method' => 'DELETE',
         ));
         
+        $entityManager = $this->getDoctrine()->getManager();
+        $latestPosts = $entityManager->getRepository(Post::class)->findLatest();
+        
         return $this->render('Blog/show.html.twig', array(
             'post' => $post,
             'delete_form' => $deleteForm->createView(),
+            'latestPosts' => $latestPosts,
         ));
     }
     
