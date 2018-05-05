@@ -23,10 +23,10 @@
                 </div>
                 <div class="col-md-4 side-bar-nav">                    
                     <ul>
-                        <li class="nav-items-right">
+                        <li {% if active == 'home' %}class="nav-items-right active"{% else %}class="nav-items-right"{% endif %}>
                             <a href="/">Home</a>
                         </li>
-                        <li class="nav-items-right">
+                        <li {% if active == 'blog' %}class="nav-items-right active"{% else %}class="nav-items-right"{% endif %}>
                             <a href="/blog">Blog</a>
                         </li>
                     </ul>    
