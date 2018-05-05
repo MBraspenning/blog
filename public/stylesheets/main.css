@@ -55,7 +55,7 @@ body {
 .main-content {
     top: -20px;
     background-color: #FFF;
-    padding: 20px;
+    padding: 30px;
     
     box-shadow: 0px 0px 0px 1px rgba(125, 125, 125, 0.1);
     border-radius: 3px;
@@ -121,4 +121,28 @@ body {
 
 .btn-col {
     padding: 0;
+}
+
+/* Blog List */
+
+.post-list-headers {
+    color: #30415D;
+}
+
+.post-list-headers a {
+    color: inherit;
+}
+
+.post-list-headers a:hover {
+    text-decoration: none;
+    color: #CF6766;
+}
+
+.post-list-dates {
+    color: #666;
+    font-weight: 300;
+}
+
+.fa-clock {
+    margin-right: 8px;
 }
