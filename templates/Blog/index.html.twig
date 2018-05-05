@@ -10,12 +10,20 @@
         <div class="col-md-8 main-content mb-4">
             {% block content %}
                 <h5 class="post-list-headers mb-3">
-                    <a href="{{ path('blog_show', { 'date_added': post.dateAdded|date('Y/m/d'), 'slug': post.slug} ) }}">
+                    <a href="{{ path('blog_show', { 'date_added': post.dateAdded|date('Y/m/d'), 'slug': post.slug } ) }}">
                     {{ post.title }}
                     </a>
                 </h5>
                 <p class="post-list-dates"><i class="far fa-clock"></i>{{ post.dateAdded|date('d/m/Y') }}</p>
-                {{ post.body }}
+                <div class="post-list-introduction">
+                    {{ post.introduction }}   
+                </div>
+                
+                <button class="buttons float-right">
+                    <a href="{{ path('blog_show', { 'date_added': post.dateAdded|date('Y/m/d'), 'slug': post.slug } ) }}">
+                        Read More
+                    </a>    
+                </button>                
             {% endblock %}    
         </div>
         

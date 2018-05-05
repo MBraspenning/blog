@@ -14,6 +14,7 @@ body {
 
 #navigation {
     background-color: #30415D;
+    box-shadow: 0px 0px 0px 2px rgba(125, 125, 125, 0.1);
 }
 
 #navigation ul {
@@ -103,7 +104,8 @@ body {
 
 .buttons {
     border: 1px solid #CF6766;
-    width: 200px;
+    width: 150px;
+    padding: 5px 0;
     color: #30415D;
     cursor: pointer;
     border-radius: 3px;
@@ -145,4 +147,8 @@ body {
 
 .fa-clock {
     margin-right: 8px;
+}
+
+.post-list-introduction {
+    font-weight: 300;
 }

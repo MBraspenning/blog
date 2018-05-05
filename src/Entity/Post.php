@@ -40,6 +40,11 @@ class Post
     * @ORM\Column(type="string", length=255)
     */
     private $slug;
+    
+    /**
+    * @ORM\Column(type="text")
+    */
+    private $introduction;
 
     public function getId()
     {
@@ -90,6 +95,18 @@ class Post
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+        
+        return $this;
+    }
+    
+    public function getIntroduction(): ?string
+    {
+        return $this->introduction;
+    }
+    
+    public function setIntroduction(string $introduction): self
+    {
+        $this->introduction = $introduction;
         
         return $this;
     }
