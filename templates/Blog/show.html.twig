@@ -1,16 +1,35 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
+<div class="row no-gutters">
+    <div class="col-md-12">
+        <h2 class="post-show-header mb-3">{{ post.title }}</h2>
 
-<h1>{{ post.title }}</h1>
+        <p class="post-list-dates">
+            <i class="far fa-clock"></i>
+            {{ post.dateAdded|date('d/m/Y') }}
+        </p>
 
-<p>{{ post.dateAdded|date('d/m/Y') }}</p>
+        <div class="post-show-introduction mb-3">
+            {{ post.introduction }}
+        </div>
+        <div class="post-show-body">
+            {{ post.body|striptags
+                ('<p>,<u>,<strong>,<h1>,<h2>,<h3>,<h4>,<h5>,<h6>')
+                |raw 
+            }}
+        </div>
 
-{{ post.body|striptags('<p>,<u>,<strong>')|raw }}
+        <button class="buttons float-right">
+            <a href="{{ path('blog_index') }}">Back to Posts</a>
+        </button>
+    </div>
+</div>
 
 {% if is_granted('ROLE_ADMIN') %}
+    <hr class="mt-4">
     
-    <div class="row btn-row">
+    <div class="row btn-row mt-4">
         <div class="col-md-6 btn-col">
             <button class="buttons">
                 <a href="{{ path('blog_edit', { 'date_added':post.dateAdded|date('Y/m/d'), 'slug': post.slug }) }}">

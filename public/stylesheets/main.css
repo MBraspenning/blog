@@ -125,6 +125,19 @@ body {
     padding: 0;
 }
 
+.post-show-header {
+    color: #30415D;
+}
+
+.post-show-body, .post-show-introduction {
+    font-weight: 300;
+}
+
+.post-show-body h5 {
+    color: #30415D;
+    margin-bottom: 16px;
+}
+
 /* Blog List */
 
 .post-list-headers {
