@@ -18,6 +18,7 @@ class PostType extends AbstractType
     {
         $builder
             ->add('Title', TextType::class)
+            ->add('introduction', CKEditorType::class)
             ->add('Body', CKEditorType::class)
             ->add('submit', SubmitType::class, array('label' => 'Add Post'));
     }
