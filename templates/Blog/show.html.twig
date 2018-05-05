@@ -4,6 +4,8 @@
 
 <h1>{{ post.title }}</h1>
 
+<p>{{ post.body }}</p>
+
 {% if is_granted('ROLE_ADMIN') %}
     
     <div class="row btn-row">
