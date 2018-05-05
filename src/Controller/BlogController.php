@@ -24,7 +24,7 @@ class BlogController extends Controller
     {
         $entityManager = $this->getDoctrine()->getManager();
         
-        $posts = $entityManager->getRepository(Post::class)->findAll();
+        $posts = $entityManager->getRepository(Post::class)->findAllOrderLatestFirst();
         $latestPosts = $entityManager->getRepository(Post::class)->findLatest();
         
         return $this->render('Blog/index.html.twig', array(

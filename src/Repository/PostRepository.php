@@ -34,4 +34,9 @@ class PostRepository extends ServiceEntityRepository
     {
         return $this->findBy(array(), array('id' => 'DESC'), 5);
     }
+    
+    public function findAllOrderLatestFirst()
+    {
+        return $this->findBy(array(), array('id' => 'DESC'));
+    }
 }
