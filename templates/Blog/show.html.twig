@@ -9,7 +9,7 @@
     <div class="row btn-row">
         <div class="col-md-6 btn-col">
             <button class="buttons">
-                <a href="{{ path('blog_edit', { 'slug': post.slug }) }}">
+                <a href="{{ path('blog_edit', { 'date_added':post.dateAdded|date('Y/m/d'), 'slug': post.slug }) }}">
                     Edit Post
                 </a>    
             </button>    

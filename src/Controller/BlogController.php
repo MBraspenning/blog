@@ -70,7 +70,7 @@ class BlogController extends Controller
     }
     
     /**
-    * @Route("/blog/{date_added}/{slug}", name="blog_show", requirements={"date_added" = ".+"})
+    * @Route("/blog/{date_added}/{slug}", name="blog_show", requirements={"date_added" = ".+", "date_added" = "^(?!edit).+"})
     * @ParamConverter("date_added", options={"format": "Y/m/d"})
     * @Method("GET")
     */
@@ -94,11 +94,12 @@ class BlogController extends Controller
     }
     
     /**
-    * @Route("/blog/{slug}/edit", name="blog_edit")
+    * @Route("/blog/edit/{date_added}/{slug}", name="blog_edit", requirements={"date_added" = ".+"})
+    * @ParamConverter("date_added", options={"format": "Y/m/d"})
     * @Security("has_role('ROLE_ADMIN')")
     * @Method({"GET", "POST"})
     */
-    public function edit(Request $request, Post $post)
+    public function edit(Request $request, Post $post, \DateTime $date_added)
     {
         $form = $this->createForm(PostType::class, $post);
         
@@ -118,6 +119,7 @@ class BlogController extends Controller
             $entityManager->flush();
             
             return $this->redirectToRoute('blog_show', array(
+                'date_added' => $post->getDateAdded()->format('Y/m/d'),
                 'slug' => $post->getSlug(),
             ));
         }
