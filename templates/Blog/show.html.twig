@@ -4,7 +4,9 @@
 
 <h1>{{ post.title }}</h1>
 
-<p>{{ post.body }}</p>
+<p>{{ post.dateAdded|date('d/m/Y') }}</p>
+
+{{ post.body|striptags('<p>,<u>,<strong>')|raw }}
 
 {% if is_granted('ROLE_ADMIN') %}
     
