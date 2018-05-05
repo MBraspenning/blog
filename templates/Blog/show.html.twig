@@ -2,15 +2,26 @@
 
 {% block content %}
 
-<h1>Show Page</h1>
-
-<p>{{ post.title }}</p>
+<h1>{{ post.title }}</h1>
 
 {% if is_granted('ROLE_ADMIN') %}
-    <a href="{{ path('blog_edit', { 'slug': post.slug }) }}">Edit</a>
-    {{ form_start(delete_form) }}
-    {{ form_widget(delete_form) }}
-    {{ form_end(delete_form) }}    
+    
+    <div class="row btn-row">
+        <div class="col-md-6 btn-col">
+            <button class="buttons">
+                <a href="{{ path('blog_edit', { 'slug': post.slug }) }}">
+                    Edit Post
+                </a>    
+            </button>    
+        </div>
+        
+        <div class="col-md-6 btn-col text-right">
+            {{ form_start(delete_form) }}
+            {{ form_widget(delete_form.submit, {'attr': {'class': 'buttons'}}) }}
+            {{ form_end(delete_form) }}        
+        </div>        
+    </div>
+        
 {% endif %}
 
 {% endblock %}

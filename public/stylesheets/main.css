@@ -73,7 +73,7 @@ body {
     color: #30415D;
 }
 
-#sidebar-list {
+.sidebar-list {
     padding: 0;
     list-style: none;
 }
@@ -97,4 +97,28 @@ body {
 .fa-angle-right {
     color: #CF6766;
     margin-right: 10px;
+}
+
+/* Show page */
+
+.buttons {
+    border: 1px solid #CF6766;
+    width: 200px;
+    color: #30415D;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.buttons:hover {
+    background-color: #CF6766;
+    color: #FFF;
+}
+
+.buttons a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.btn-col {
+    padding: 0;
 }
