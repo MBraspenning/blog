@@ -17,12 +17,10 @@
                 <div class="post-list-introduction">
                     {{ post.introduction }}   
                 </div>
-                
-                <button class="buttons float-right">
-                    <a href="{{ path('blog_show', { 'date_added': post.dateAdded|date('Y/m/d'), 'slug': post.slug } ) }}">
-                        Read More
-                    </a>    
-                </button>                
+                                
+                <a href="{{ path('blog_show', { 'date_added': post.dateAdded|date('Y/m/d'), 'slug': post.slug } ) }}">
+                    <button class="buttons float-right">Read More</button> 
+                </a>      
             {% endblock %}    
         </div>
         

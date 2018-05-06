@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% set active = 'show' %}
+
 {% block content %}
 <div class="row no-gutters">
     <div class="col-md-12">
@@ -19,10 +21,10 @@
                 |raw 
             }}
         </div>
-
-        <button class="buttons float-right">
-            <a href="{{ path('blog_index') }}">Back to Posts</a>
-        </button>
+        
+        <a href="{{ path('blog_index') }}">
+            <button class="buttons float-right">Back to Posts</button>
+        </a>        
     </div>
 </div>
 

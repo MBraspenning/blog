@@ -39,12 +39,20 @@ body {
     padding: 0;
 }
 
+.nav-items-right {
+    border-bottom: 2px solid #30415D;
+}
+
 .nav-items-right:first-child {
-    padding-right: 1.4em;
+    margin-right: 1.4em;
 }
 
 .side-bar-nav {
     padding-left: 40px;
+}
+
+.active {
+    border-bottom: 2px solid #CF6766;
 }
 
 /* Content */
@@ -119,6 +127,10 @@ body {
 .buttons a {
     text-decoration: none;
     color: inherit;
+}
+
+.buttons:focus {
+    outline: none;
 }
 
 .btn-col {
