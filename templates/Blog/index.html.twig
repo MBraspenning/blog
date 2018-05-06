@@ -15,7 +15,11 @@
                 </h5>
                 <p class="post-list-dates"><i class="far fa-clock"></i>{{ post.dateAdded|date('d/m/Y') }}</p>
                 <div class="post-list-introduction">
-                    {{ post.introduction }}   
+                    {{ 
+                       post.introduction|striptags
+                        ('<p>,<u>,<strong>,<h1>,<h2>,<h3>,<h4>,<h5>,<h6>')
+                        |raw  
+                    }}   
                 </div>
                                 
                 <a href="{{ path('blog_show', { 'date_added': post.dateAdded|date('Y/m/d'), 'slug': post.slug } ) }}">
@@ -42,6 +46,13 @@
                     </li>
                 </ul>
                 {% endif %}
+                
+                {{ form_start(search_form, {'attr': {'id': 'search-form'}}) }}
+                        
+                    {{ form_widget(search_form.Search, {'attr': {'class': 'form-control mb-4', 'placeholder': 'Search: type and hit enter'}}) }}
+
+                {{ form_end(search_form) }}
+                
                 <h6>Recent Posts</h6>
                 <ul class="sidebar-list">
                     {% for post in latestPosts %}

@@ -13,7 +13,9 @@
         </p>
 
         <div class="post-show-introduction mb-3">
-            {{ post.introduction }}
+            {{ post.introduction|striptags
+                ('<p>,<u>,<strong>,<h1>,<h2>,<h3>,<h4>,<h5>,<h6>')
+                |raw  }}
         </div>
         <div class="post-show-body">
             {{ post.body|striptags

@@ -13,23 +13,29 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use App\Entity\Post;
 use App\Form\PostType;
 use App\Form\DeletePostType;
+use App\Form\SearchType;
 
 class BlogController extends Controller
 {
     /**
     * @Route("/blog", name="blog_index")
-    * @Method("GET")
+    * @Method({"GET", "POST"})
     */
-    public function index()
+    public function index(Request $request)
     {
         $entityManager = $this->getDoctrine()->getManager();
         
         $posts = $entityManager->getRepository(Post::class)->findAllOrderLatestFirst();
         $latestPosts = $entityManager->getRepository(Post::class)->findLatest();
         
+        $search_form = $this->createForm(SearchType::class);
+        
+        $search_form->handleRequest($request);
+        
         return $this->render('Blog/index.html.twig', array(
             'posts' => $posts,
             'latestPosts' => $latestPosts,
+            'search_form' => $search_form->createView(),
         ));
     }
     
@@ -72,9 +78,9 @@ class BlogController extends Controller
     /**
     * @Route("/blog/{date_added}/{slug}", name="blog_show", requirements={"date_added" = ".+", "date_added" = "^(?!edit).+"})
     * @ParamConverter("date_added", options={"format": "Y/m/d"})
-    * @Method("GET")
+    * @Method({"GET", "POST"})
     */
-    public function show(Post $post, \DateTime $date_added)
+    public function show(Request $request, Post $post, \DateTime $date_added)
     {        
         $deleteForm = $this->createForm(DeletePostType::class, $post, array(
             'action' => $this->generateUrl('blog_delete', array(
@@ -83,12 +89,17 @@ class BlogController extends Controller
             'method' => 'DELETE',
         ));
         
+        $search_form = $this->createForm(SearchType::class);
+        
+        $search_form->handleRequest($request);
+        
         $entityManager = $this->getDoctrine()->getManager();
         $latestPosts = $entityManager->getRepository(Post::class)->findLatest();
         
         return $this->render('Blog/show.html.twig', array(
             'post' => $post,
             'delete_form' => $deleteForm->createView(),
+            'search_form' => $search_form->createView(),
             'latestPosts' => $latestPosts,
         ));
     }
