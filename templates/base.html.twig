@@ -60,6 +60,13 @@
                             </li>
                         </ul>
                         {% endif %}
+                        
+                        {{ form_start(search_form, {'attr': {'id': 'search-form'}}) }}
+                        
+                            {{ form_widget(search_form.Search, {'attr': {'class': 'form-control mb-4', 'placeholder': 'Search: type and hit enter'}}) }}
+                        
+                        {{ form_end(search_form) }}
+                        
                         <h6>Recent Posts</h6>
                         <ul class="sidebar-list">
                             {% for post in latestPosts %}
