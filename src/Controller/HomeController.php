@@ -22,8 +22,7 @@ class HomeController extends Controller
         $posts = $entityManager->getRepository(Post::class)->findLatest();
         $latestPosts = $entityManager->getRepository(Post::class)->findLatest();
         
-        $search_form = $this->createForm(SearchType::class);
-        
+        $search_form = $this->createForm(SearchType::class);        
         $search_form->handleRequest($request);
         
         if ($search_form->isSubmitted() && $search_form->isValid())

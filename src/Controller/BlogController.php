@@ -28,8 +28,7 @@ class BlogController extends Controller
         $posts = $entityManager->getRepository(Post::class)->findAllOrderLatestFirst();
         $latestPosts = $entityManager->getRepository(Post::class)->findLatest();
         
-        $search_form = $this->createForm(SearchType::class);
-        
+        $search_form = $this->createForm(SearchType::class);    
         $search_form->handleRequest($request);
         
         if ($search_form->isSubmitted() && $search_form->isValid())
@@ -99,7 +98,6 @@ class BlogController extends Controller
         ));
         
         $search_form = $this->createForm(SearchType::class);
-        
         $search_form->handleRequest($request);
         
         if ($search_form->isSubmitted() && $search_form->isValid())
@@ -197,20 +195,5 @@ class BlogController extends Controller
             'search_query' => $query,
             'results' => $results,
         ));
-    }
-    
-    public function search()
-    {
-        $search_form = $this->createForm(SearchType::class);        
-        $search_form->handleRequest($request);
-        
-        if ($search_form->isSubmitted() && $search_form->isValid())
-        {
-            $searchQuery = $search_form->getData()['Search'];
-            
-            return $this->redirectToRoute('blog_results', array(
-                'query' => $searchQuery,
-            ));
-        }
     }
 }
