@@ -32,6 +32,15 @@ class BlogController extends Controller
         
         $search_form->handleRequest($request);
         
+        if ($search_form->isSubmitted() && $search_form->isValid())
+        {
+            $searchQuery = $search_form->getData()['Search'];
+            
+            return $this->redirectToRoute('blog_results', array(
+                'query' => $searchQuery,
+            ));
+        }
+        
         return $this->render('Blog/index.html.twig', array(
             'posts' => $posts,
             'latestPosts' => $latestPosts,
@@ -76,7 +85,7 @@ class BlogController extends Controller
     }
     
     /**
-    * @Route("/blog/{date_added}/{slug}", name="blog_show", requirements={"date_added" = ".+", "date_added" = "^(?!edit).+"})
+    * @Route("/blog/{date_added}/{slug}", name="blog_show", requirements={"date_added" = ".+", "date_added" = "^(?!edit)(?!results).+"})
     * @ParamConverter("date_added", options={"format": "Y/m/d"})
     * @Method({"GET", "POST"})
     */
@@ -92,6 +101,15 @@ class BlogController extends Controller
         $search_form = $this->createForm(SearchType::class);
         
         $search_form->handleRequest($request);
+        
+        if ($search_form->isSubmitted() && $search_form->isValid())
+        {
+            $searchQuery = $search_form->getData()['Search'];
+            
+            return $this->redirectToRoute('blog_results', array(
+                'query' => $searchQuery,
+            ));
+        }
         
         $entityManager = $this->getDoctrine()->getManager();
         $latestPosts = $entityManager->getRepository(Post::class)->findLatest();
@@ -164,5 +182,35 @@ class BlogController extends Controller
         }
         
         return $this->redirectToRoute('blog_index');
+    }
+    
+    /**
+    * @Route("/blog/results/{query}", name="blog_results")
+    * @Method({"GET", "POST"})
+    */
+    public function results(Request $request, $query)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $results = $entityManager->getRepository(Post::class)->findBasedOnSearchQuery($query);
+        
+        return $this->render('Blog/results.html.twig', array(
+            'search_query' => $query,
+            'results' => $results,
+        ));
+    }
+    
+    public function search()
+    {
+        $search_form = $this->createForm(SearchType::class);        
+        $search_form->handleRequest($request);
+        
+        if ($search_form->isSubmitted() && $search_form->isValid())
+        {
+            $searchQuery = $search_form->getData()['Search'];
+            
+            return $this->redirectToRoute('blog_results', array(
+                'query' => $searchQuery,
+            ));
+        }
     }
 }

@@ -26,6 +26,15 @@ class HomeController extends Controller
         
         $search_form->handleRequest($request);
         
+        if ($search_form->isSubmitted() && $search_form->isValid())
+        {
+            $searchQuery = $search_form->getData()['Search'];
+            
+            return $this->redirectToRoute('blog_results', array(
+                'query' => $searchQuery,
+            ));
+        }
+        
         return $this->render('Home/index.html.twig', array(
             'posts' => $posts,
             'latestPosts' => $latestPosts,

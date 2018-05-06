@@ -19,11 +19,4 @@ class SearchType extends AbstractType
         $builder
             ->add('Search', TextType::class);
     }
-    
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults(array(
-            'data_class' => Post::class,
-        ));
-    }
 }

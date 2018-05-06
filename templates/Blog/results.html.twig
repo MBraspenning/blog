@@ -1,0 +1,10 @@
+{% block content %}
+<h1>results page!</h1>
+
+{{ search_query }}
+
+{% for result in results %}
+    {{ result.Title }}
+{% endfor %}
+
+{% endblock %}

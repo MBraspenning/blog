@@ -39,4 +39,19 @@ class PostRepository extends ServiceEntityRepository
     {
         return $this->findBy(array(), array('id' => 'DESC'));
     }
+    
+    public function findBasedOnSearchQuery(string $searchquery)
+    {
+        $entityManager = $this->getEntityManager();
+        
+        $query = $entityManager->createQuery(
+            'SELECT p.Title
+            FROM App\Entity\Post p
+            WHERE p.Body LIKE :searchquery
+            ORDER BY p.id DESC'
+        )->setParameter('searchquery', '%'.$searchquery.'%');
+
+        // returns an array of Post objects
+        return $query->execute();
+    }
 }
