@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% set active = 'blog' %}
+
+{% block content %}
+    <h5 class="post-list-headers mb-3">{{ no_results_message }}</h5>
+    {{ form_start(search_form_2, {'attr': {'id': 'search-form'}}) }}
+                        
+        {{ form_widget(search_form_2.Search, {'attr': {'class': 'form-control mb-4', 'placeholder': search_query}}) }}
+
+    {{ form_end(search_form_2) }}
+{% endblock %}

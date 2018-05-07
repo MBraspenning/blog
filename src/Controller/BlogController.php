@@ -189,19 +189,41 @@ class BlogController extends Controller
     public function results(Request $request, $query)
     {
         $entityManager = $this->getDoctrine()->getManager();
+        $latestPosts = $entityManager->getRepository(Post::class)->findLatest();
         $results = $entityManager->getRepository(Post::class)->findBasedOnSearchQuery($query);
+        
+        $search_form = $this->createForm(SearchType::class);
+        $search_form->handleRequest($request);
+        
+        if ($search_form->isSubmitted() && $search_form->isValid())
+        {
+            $searchQuery = $search_form->getData()['Search'];
+            
+            return $this->redirectToRoute('blog_results', array(
+                'query' => $searchQuery,
+            ));
+        }
         
         $no_results_message = "";
         
         if (count($results) === 0) 
         {
             $no_results_message = "No results found for \"" . $query . "\". Try again?";
+            
+            return $this->render('Blog/noresults.html.twig', array(
+                'no_results_message' => $no_results_message,
+                'search_query' => $query,
+                'search_form' => $search_form->createView(),
+                'search_form_2' => $search_form->createView(),
+                'latestPosts' => $latestPosts,
+            ));
         }
-        
+
         return $this->render('Blog/results.html.twig', array(
             'search_query' => $query,
-            'results' => $results,
-            'no_results_message' => $no_results_message,
+            'posts' => $results,
+            'search_form' => $search_form->createView(),
+            'latestPosts' => $latestPosts,
         ));
     }
 }

@@ -1,12 +1,21 @@
-{% block content %}
-<h1>results page!</h1>
+{% extends 'Blog/index.html.twig' %}
 
-{% if no_results_message|length != 0 %}
-    {{ no_results_message }}
-{% endif %}
+{% block content %}    
+    <h5 class="post-list-headers mb-3">
+        <a href="{{ path('blog_show', { 'date_added': post.date_added|date('Y/m/d'), 'slug': post.slug } ) }}">
+        {{ post.Title }}
+        </a>
+    </h5>
+    <p class="post-list-dates"><i class="far fa-clock"></i>{{ post.date_added|date('d/m/Y') }}</p>
+    <div class="post-list-introduction">
+        {{ 
+           post.introduction|striptags
+            ('<p>,<u>,<strong>,<h1>,<h2>,<h3>,<h4>,<h5>,<h6>')
+            |raw  
+        }}   
+    </div>
 
-{% for result in results %}
-    {{ result.Title }}
-{% endfor %}
-
-{% endblock %}
+    <a href="{{ path('blog_show', { 'date_added': post.date_added|date('Y/m/d'), 'slug': post.slug } ) }}">
+        <button class="buttons float-right">Read More</button> 
+    </a>      
+{% endblock %} 

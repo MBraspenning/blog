@@ -45,7 +45,7 @@ class PostRepository extends ServiceEntityRepository
         $entityManager = $this->getEntityManager();
         
         $query = $entityManager->createQuery(
-            'SELECT p.Title
+            'SELECT p.id, p.Title, p.Body, p.date_added, p.slug , p.introduction
             FROM App\Entity\Post p
             WHERE p.Body LIKE :searchquery
             OR p.introduction LIKE :searchquery
