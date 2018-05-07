@@ -18,14 +18,14 @@ use App\Form\SearchType;
 class BlogController extends Controller
 {
     /**
-    * @Route("/blog", name="blog_index")
+    * @Route("/blog/{page}", name="blog_index", requirements={"page" = "\d+"})
     * @Method({"GET", "POST"})
     */
-    public function index(Request $request)
+    public function index(Request $request, int $page = 1)
     {
         $entityManager = $this->getDoctrine()->getManager();
         
-        $posts = $entityManager->getRepository(Post::class)->findAllOrderLatestFirst();
+        $posts = $entityManager->getRepository(Post::class)->findPaginated($page);
         $latestPosts = $entityManager->getRepository(Post::class)->findLatest();
         
         $search_form = $this->createForm(SearchType::class);    

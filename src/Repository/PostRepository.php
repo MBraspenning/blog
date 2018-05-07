@@ -19,15 +19,18 @@ class PostRepository extends ServiceEntityRepository
         parent::__construct($registry, Post::class);
     }
     
-    public function findPostByDateAndSlug($date, $slug)
+    public function findPaginated($page)
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.date_added = :date')
-            ->setParameter('date', $date)
-            ->andWhere('p.slug = :slug')
-            ->setParameter('slug', $slug)
-            ->getQuery()
-            ->getOneOrNullResult();
+        $pagination_max = 5;
+        $pagination_offset = ($page - 1) * $pagination_max;
+        
+        $query = $this->createQueryBuilder('post')
+            ->setMaxResults($pagination_max)
+            ->setFirstResult($pagination_offset)
+            ->orderBy('post.id', 'DESC')
+            ->getQuery();
+        
+        return $query->getResult();
     }
     
     public function findLatest()
@@ -45,7 +48,7 @@ class PostRepository extends ServiceEntityRepository
         $entityManager = $this->getEntityManager();
         
         $query = $entityManager->createQuery(
-            'SELECT p.id, p.Title, p.Body, p.date_added, p.slug , p.introduction
+            'SELECT p.id, p.Title, p.Body, p.date_added, p.slug, p.introduction
             FROM App\Entity\Post p
             WHERE p.Body LIKE :searchquery
             OR p.introduction LIKE :searchquery
