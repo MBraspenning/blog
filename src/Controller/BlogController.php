@@ -191,9 +191,17 @@ class BlogController extends Controller
         $entityManager = $this->getDoctrine()->getManager();
         $results = $entityManager->getRepository(Post::class)->findBasedOnSearchQuery($query);
         
+        $no_results_message = "";
+        
+        if (count($results) === 0) 
+        {
+            $no_results_message = "No results found for \"" . $query . "\". Try again?";
+        }
+        
         return $this->render('Blog/results.html.twig', array(
             'search_query' => $query,
             'results' => $results,
+            'no_results_message' => $no_results_message,
         ));
     }
 }

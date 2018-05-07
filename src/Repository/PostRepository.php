@@ -48,6 +48,8 @@ class PostRepository extends ServiceEntityRepository
             'SELECT p.Title
             FROM App\Entity\Post p
             WHERE p.Body LIKE :searchquery
+            OR p.introduction LIKE :searchquery
+            OR p.Title LIKE :searchquery
             ORDER BY p.id DESC'
         )->setParameter('searchquery', '%'.$searchquery.'%');
 

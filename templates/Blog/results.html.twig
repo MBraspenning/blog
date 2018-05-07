@@ -1,7 +1,9 @@
 {% block content %}
 <h1>results page!</h1>
 
-{{ search_query }}
+{% if no_results_message|length != 0 %}
+    {{ no_results_message }}
+{% endif %}
 
 {% for result in results %}
     {{ result.Title }}
