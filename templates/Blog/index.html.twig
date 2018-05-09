@@ -71,13 +71,28 @@
     {% endfor %}
     
     <div class="row pagination-row">
-        <ul class="pagination pagination-sm">
-            {% for i in 1..number_of_pages %}
-                <li class="page-item">
-                    <a class="page-link" href="{{ path('blog_index', { 'page': i }) }}">{{ i }}</a>
-                </li>
-            {% endfor %}
-        </ul>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-6">
+                    {% if app.request.get('page') > 1 %}
+                        <div class="newer-posts">
+                            <a href="{{ path('blog_index', {'page': app.request.get('page') - 1}) }}">
+                                Newer Posts
+                            </a>
+                        </div> 
+                    {% endif %}
+                </div>
+                <div class="col-md-6 float-right">
+                    {% if app.request.get('page') < number_of_pages %}
+                        <div class="older-posts text-right">
+                            <a href="{{ path('blog_index', {'page': app.request.get('page') + 1}) }}">
+                                Older Posts
+                            </a>
+                        </div> 
+                    {% endif %}
+                </div>
+            </div>
+        </div>       
     </div>
     
 {% endblock %}

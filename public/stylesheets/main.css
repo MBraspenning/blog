@@ -194,14 +194,11 @@ body {
     margin-top: -20px!important;
 }
 
-.page-link {
+.older-posts a, .newer-posts a {
     color: #30415D;
 }
 
-.page-link:hover {
-    background-color: #FFF;
-}
-
-.page-link:hover {
+.older-posts a:hover, .newer-posts a:hover {
     color: #CF6766;
+    text-decoration: none;
 }
