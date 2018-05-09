@@ -70,8 +70,14 @@
     </div>
     {% endfor %}
     
-    <div class="row">
-        {{ number_of_pages }}
+    <div class="row pagination-row">
+        <ul class="pagination pagination-sm">
+            {% for i in 1..number_of_pages %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ path('blog_index', { 'page': i }) }}">{{ i }}</a>
+                </li>
+            {% endfor %}
+        </ul>
     </div>
     
 {% endblock %}
