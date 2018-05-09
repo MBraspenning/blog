@@ -14,9 +14,17 @@ use App\Entity\Post;
 use App\Form\PostType;
 use App\Form\DeletePostType;
 use App\Form\SearchType;
+use App\Utils\Pagination\PaginationUtil;
 
 class BlogController extends Controller
 {
+    private $PaginationUtil;
+    
+    public function __construct(PaginationUtil $PaginationUtil)
+    {
+        $this->PaginationUtil = $PaginationUtil;
+    }
+    
     /**
     * @Route("/blog/{page}", name="blog_index", requirements={"page" = "\d+"})
     * @Method({"GET", "POST"})
@@ -25,7 +33,7 @@ class BlogController extends Controller
     {
         $entityManager = $this->getDoctrine()->getManager();
         
-        $posts = $entityManager->getRepository(Post::class)->findPaginated($page);
+        $posts = $this->PaginationUtil->findPaginated($page);
         $latestPosts = $entityManager->getRepository(Post::class)->findLatest();
         
         $search_form = $this->createForm(SearchType::class);    
@@ -40,10 +48,13 @@ class BlogController extends Controller
             ));
         }
         
+        $number_of_pages = $this->PaginationUtil->calculateNumberOfPages();
+        
         return $this->render('Blog/index.html.twig', array(
             'posts' => $posts,
             'latestPosts' => $latestPosts,
             'search_form' => $search_form->createView(),
+            'number_of_pages' => $number_of_pages,
         ));
     }
     
