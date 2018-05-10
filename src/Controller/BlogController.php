@@ -15,14 +15,17 @@ use App\Form\PostType;
 use App\Form\DeletePostType;
 use App\Form\SearchType;
 use App\Utils\Pagination\PaginationUtil;
+use App\Utils\Slugger\SluggerUtil;
 
 class BlogController extends Controller
 {
     private $PaginationUtil;
+    private $SluggerUtil;
     
-    public function __construct(PaginationUtil $PaginationUtil)
+    public function __construct(PaginationUtil $PaginationUtil, SluggerUtil $SluggerUtil)
     {
         $this->PaginationUtil = $PaginationUtil;
+        $this->SluggerUtil = $SluggerUtil;
     }
     
     /**
@@ -75,9 +78,7 @@ class BlogController extends Controller
         
         if ($form->isSubmitted() && $form->isValid())
         {
-            $slug = strtolower($form->getData()->getTitle());
-            $slug = preg_replace("/[^a-z0-9_\s-]/", "", $slug);
-            $slug = preg_replace("/[\s_]/", "-", $slug);
+            $slug = $this->SluggerUtil->makeSlug($form->getData()->getTitle());
             $post->setSlug($slug);
             
             $post = $form->getData();

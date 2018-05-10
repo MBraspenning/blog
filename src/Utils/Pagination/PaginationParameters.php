@@ -4,5 +4,5 @@ namespace App\Utils\Pagination;
 
 abstract class PaginationParameters
 {
-    const PaginationMax = 2;
+    const PaginationMax = 5;
 }
