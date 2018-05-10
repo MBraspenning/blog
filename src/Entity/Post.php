@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -45,6 +47,16 @@ class Post
     * @ORM\Column(type="text")
     */
     private $introduction;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Category", inversedBy="posts")
+     */
+    private $Categories;
+
+    public function __construct()
+    {
+        $this->Categories = new ArrayCollection();
+    }
 
     public function getId()
     {
@@ -108,6 +120,32 @@ class Post
     {
         $this->introduction = $introduction;
         
+        return $this;
+    }
+
+    /**
+     * @return Collection|Category[]
+     */
+    public function getCategories(): Collection
+    {
+        return $this->Categories;
+    }
+
+    public function addCategory(Category $category): self
+    {
+        if (!$this->Categories->contains($category)) {
+            $this->Categories[] = $category;
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Category $category): self
+    {
+        if ($this->Categories->contains($category)) {
+            $this->Categories->removeElement($category);
+        }
+
         return $this;
     }
 }
