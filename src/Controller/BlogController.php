@@ -11,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use App\Entity\Post;
+use App\Entity\Category;
 use App\Form\PostType;
 use App\Form\DeletePostType;
 use App\Form\SearchType;
@@ -40,6 +41,7 @@ class BlogController extends Controller
         $entityManager = $this->getDoctrine()->getManager();
         
         $posts = $this->PaginationUtil->findPaginated($page);
+        $categories = $entityManager->getRepository(Category::class)->findAll();
         $latestPosts = $entityManager->getRepository(Post::class)->findLatest();
         
         $number_of_pages = $this->PaginationUtil->calculateNumberOfPages();
@@ -54,6 +56,7 @@ class BlogController extends Controller
 
         return $this->render('Blog/index.html.twig', array(
             'posts' => $posts,
+            'categories' => $categories,
             'latestPosts' => $latestPosts,
             'search_form' => $search_form->createView(),
             'number_of_pages' => $number_of_pages,
@@ -118,9 +121,11 @@ class BlogController extends Controller
         
         $entityManager = $this->getDoctrine()->getManager();
         $latestPosts = $entityManager->getRepository(Post::class)->findLatest();
+        $categories = $entityManager->getRepository(Category::class)->findAll();
         
         return $this->render('Blog/show.html.twig', array(
             'post' => $post,
+            'categories' => $categories,
             'delete_form' => $deleteForm->createView(),
             'search_form' => $search_form->createView(),
             'latestPosts' => $latestPosts,
@@ -197,6 +202,7 @@ class BlogController extends Controller
     {
         $entityManager = $this->getDoctrine()->getManager();
         $latestPosts = $entityManager->getRepository(Post::class)->findLatest();
+        $categories = $entityManager->getRepository(Category::class)->findAll();
         $results = $entityManager->getRepository(Post::class)->findBasedOnSearchQuery($query);
         
         $search_form = $this->SearchUtil->createSearchForm();
@@ -219,6 +225,7 @@ class BlogController extends Controller
                 'search_form' => $search_form->createView(),
                 'search_form_2' => $search_form->createView(),
                 'latestPosts' => $latestPosts,
+                'categories' => $categories,
             ));
         }
 
@@ -227,6 +234,7 @@ class BlogController extends Controller
             'posts' => $results,
             'search_form' => $search_form->createView(),
             'latestPosts' => $latestPosts,
+            'categories' => $categories,
         ));
     }
 }

@@ -7,6 +7,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller; 
 use App\Entity\Post;
+use App\Entity\Category;
 use App\Form\SearchType;
 use App\Utils\Search\SearchUtil;
 
@@ -28,6 +29,7 @@ class HomeController extends Controller
         $entityManager = $this->getDoctrine()->getManager();
         
         $posts = $entityManager->getRepository(Post::class)->findLatest();
+        $categories = $entityManager->getRepository(Category::class)->findAll();
         $latestPosts = $entityManager->getRepository(Post::class)->findLatest();        
         
         $search_form = $this->SearchUtil->createSearchForm();
@@ -40,6 +42,7 @@ class HomeController extends Controller
         
         return $this->render('Home/index.html.twig', array(
             'posts' => $posts,
+            'categories' => $categories,
             'latestPosts' => $latestPosts,
             'search_form' => $search_form->createView(),
         ));

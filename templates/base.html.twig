@@ -54,6 +54,11 @@
                                 </a>
                             </li>
                             <li class="sidebar-list-item">
+                                <a class="sidebar-list-item-link" href="{{ path('category_create') }}">
+                                    <i class="fas fa-angle-right"></i>Add Category
+                                </a>
+                            </li>
+                            <li class="sidebar-list-item">
                                 <a class="sidebar-list-item-link" href="/logout">
                                     <i class="fas fa-angle-right"></i>Logout
                                 </a>
@@ -76,7 +81,18 @@
                                     </a>
                                 </li>
                             {% endfor %}    
-                        </ul>                        
+                        </ul> 
+                        
+                        <h6>Categories</h6>
+                        <ul class="sidebar-list">
+                            {% for category in categories %}
+                                <li class="sidebar-list-item">
+                                    <a class="sidebar-list-item-link" href="">
+                                        <i class="fas fa-angle-right"></i>{{ category.name }}
+                                    </a>
+                                </li>
+                            {% endfor %}    
+                        </ul> 
                     {% endblock %}
                 </div>
             </div>
