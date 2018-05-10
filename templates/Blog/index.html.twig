@@ -32,6 +32,32 @@
 
             </div>
             {% endfor %}
+            
+            <div class="row pagination-row mb-5">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6">
+                            {% if app.request.get('page') > 1 %}
+                                <div class="newer-posts">
+                                    <a href="{{ path('blog_index', {'page': app.request.get('page') - 1}) }}">
+                                        Newer Posts
+                                    </a>
+                                </div> 
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6 float-right">
+                            {% if app.request.get('page') < number_of_pages %}
+                                <div class="older-posts text-right">
+                                    <a href="{{ path('blog_index', {'page': app.request.get('page') + 1}) }}">
+                                        Older Posts
+                                    </a>
+                                </div> 
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>       
+            </div>
+            
         </div>
         
         <div class="col-md-4 main-column">
@@ -89,31 +115,6 @@
             </div>
         </div>
     
-        <div class="col-md-8 main-column">
-            <div class="row pagination-row mb-5">
-                <div class="col-md-12">
-                    <div class="row">
-                        <div class="col-md-6">
-                            {% if app.request.get('page') > 1 %}
-                                <div class="newer-posts">
-                                    <a href="{{ path('blog_index', {'page': app.request.get('page') - 1}) }}">
-                                        Newer Posts
-                                    </a>
-                                </div> 
-                            {% endif %}
-                        </div>
-                        <div class="col-md-6 float-right">
-                            {% if app.request.get('page') < number_of_pages %}
-                                <div class="older-posts text-right">
-                                    <a href="{{ path('blog_index', {'page': app.request.get('page') + 1}) }}">
-                                        Older Posts
-                                    </a>
-                                </div> 
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>       
-            </div>
+            
         </div>
-    </div>   
 {% endblock %}
