@@ -61,6 +61,10 @@ body {
     margin: 0;
 }
 
+.main-column {
+    padding: 0;
+}
+
 .main-content {
     top: -20px;
     background-color: #FFF;
@@ -192,6 +196,7 @@ body {
 
 .pagination-row {
     margin-top: -20px!important;
+    width: 100%;
 }
 
 .older-posts a, .newer-posts a {

@@ -39,61 +39,68 @@
         
         <div class="wrapper">
         {% block body %}
-           <div class="row">
-                <div class="col-md-8 main-content">
-                    {% block content %}{% endblock %}    
+            <div class="row">
+                <div class="col-md-8 main-column">
+                    <div class="row">
+                        <div class="col-md-12 main-content">
+                            {% block content %}{% endblock %}    
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-4 side-bar">
-                    {% block sidebar %}
-                        {% if is_granted('ROLE_ADMIN') %}
-                        <h6>Admin Links</h6>
-                        <ul class="sidebar-list">
-                            <li class="sidebar-list-item">
-                                <a class="sidebar-list-item-link" href="{{ path('blog_create') }}">
-                                    <i class="fas fa-angle-right"></i>Add Post
-                                </a>
-                            </li>
-                            <li class="sidebar-list-item">
-                                <a class="sidebar-list-item-link" href="{{ path('category_create') }}">
-                                    <i class="fas fa-angle-right"></i>Add Category
-                                </a>
-                            </li>
-                            <li class="sidebar-list-item">
-                                <a class="sidebar-list-item-link" href="/logout">
-                                    <i class="fas fa-angle-right"></i>Logout
-                                </a>
-                            </li>
-                        </ul>
-                        {% endif %}
-                        
-                        {{ form_start(search_form, {'attr': {'id': 'search-form'}}) }}
-                        
-                            {{ form_widget(search_form.Search, {'attr': {'class': 'form-control mb-4', 'placeholder': 'Search: type and hit enter'}}) }}
-                        
-                        {{ form_end(search_form) }}
-                        
-                        <h6>Recent Posts</h6>
-                        <ul class="sidebar-list">
-                            {% for post in latestPosts %}
+                   
+                <div class="col-md-4 main-column">
+                    <div class="col-md-12 side-bar">
+                        {% block sidebar %}
+                            {% if is_granted('ROLE_ADMIN') %}
+                            <h6>Admin Links</h6>
+                            <ul class="sidebar-list">
                                 <li class="sidebar-list-item">
-                                    <a class="sidebar-list-item-link" href="{{ path('blog_show', { 'date_added':post.dateAdded|date('Y/m/d'), 'slug': post.slug }) }}">
-                                        <i class="fas fa-angle-right"></i>{{ post.title }}
+                                    <a class="sidebar-list-item-link" href="{{ path('blog_create') }}">
+                                        <i class="fas fa-angle-right"></i>Add Post
                                     </a>
                                 </li>
-                            {% endfor %}    
-                        </ul> 
-                        
-                        <h6>Categories</h6>
-                        <ul class="sidebar-list">
-                            {% for category in categories %}
                                 <li class="sidebar-list-item">
-                                    <a class="sidebar-list-item-link" href="">
-                                        <i class="fas fa-angle-right"></i>{{ category.name }}
+                                    <a class="sidebar-list-item-link" href="{{ path('category_create') }}">
+                                        <i class="fas fa-angle-right"></i>Add Category
                                     </a>
                                 </li>
-                            {% endfor %}    
-                        </ul> 
-                    {% endblock %}
+                                <li class="sidebar-list-item">
+                                    <a class="sidebar-list-item-link" href="/logout">
+                                        <i class="fas fa-angle-right"></i>Logout
+                                    </a>
+                                </li>
+                            </ul>
+                            {% endif %}
+
+                            {{ form_start(search_form, {'attr': {'id': 'search-form'}}) }}
+
+                                {{ form_widget(search_form.Search, {'attr': {'class': 'form-control mb-4', 'placeholder': 'Search: type and hit enter'}}) }}
+
+                            {{ form_end(search_form) }}
+
+                            <h6>Recent Posts</h6>
+                            <ul class="sidebar-list">
+                                {% for post in latestPosts %}
+                                    <li class="sidebar-list-item">
+                                        <a class="sidebar-list-item-link" href="{{ path('blog_show', { 'date_added':post.dateAdded|date('Y/m/d'), 'slug': post.slug }) }}">
+                                            <i class="fas fa-angle-right"></i>{{ post.title }}
+                                        </a>
+                                    </li>
+                                {% endfor %}    
+                            </ul> 
+
+                            <h6>Categories</h6>
+                            <ul class="sidebar-list">
+                                {% for category in categories %}
+                                    <li class="sidebar-list-item">
+                                        <a class="sidebar-list-item-link" href="">
+                                            <i class="fas fa-angle-right"></i>{{ category.name }}
+                                        </a>
+                                    </li>
+                                {% endfor %}    
+                            </ul> 
+                        {% endblock %}
+                    </div>
                 </div>
             </div>
         {% endblock %}
