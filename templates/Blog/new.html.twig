@@ -22,6 +22,11 @@
         {{ form_label(form.Body) }}
         {{ form_widget(form.Body, {'attr': {'class': 'form-control'}}) }}
     </div>
+    
+    <div class="form-group">
+        {{ form_label(form.Categories) }}
+        {{ form_widget(form.Categories, {'attr': {'class': 'form-control'}}) }}
+    </div>
     {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}}) }}
     
 {{ form_end(form) }}

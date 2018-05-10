@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
@@ -20,6 +21,12 @@ class PostType extends AbstractType
             ->add('Title', TextType::class)
             ->add('introduction', CKEditorType::class)
             ->add('Body', CKEditorType::class)
+            ->add('Categories', ChoiceType::class, array(
+                'choices' => array(
+                    'test' => 'test',
+                    'PHP' => 'PHP'
+                ),
+            ))
             ->add('submit', SubmitType::class, array('label' => 'Add Post'));
     }
     
