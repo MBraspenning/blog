@@ -1,5 +1,7 @@
 {% extends 'Blog/index.html.twig' %}
 
+{% set number_of_pages = 0 %}
+
 {% block content %}    
     <h5 class="post-list-headers mb-3">
         <a href="{{ path('blog_show', { 'date_added': post.date_added|date('Y/m/d'), 'slug': post.slug } ) }}">

@@ -8,9 +8,17 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller; 
 use App\Entity\Post;
 use App\Form\SearchType;
+use App\Utils\Search\SearchUtil;
 
 class HomeController extends Controller
 {
+    private $SearchUtil;
+    
+    public function __construct(SearchUtil $SearchUtil)
+    {
+        $this->SearchUtil = $SearchUtil;
+    }
+    
     /**
     * @Route("/", name="index")
     * @Method({"GET", "POST"})
@@ -20,18 +28,14 @@ class HomeController extends Controller
         $entityManager = $this->getDoctrine()->getManager();
         
         $posts = $entityManager->getRepository(Post::class)->findLatest();
-        $latestPosts = $entityManager->getRepository(Post::class)->findLatest();
+        $latestPosts = $entityManager->getRepository(Post::class)->findLatest();        
         
-        $search_form = $this->createForm(SearchType::class);        
-        $search_form->handleRequest($request);
-        
-        if ($search_form->isSubmitted() && $search_form->isValid())
+        $search_form = $this->SearchUtil->createSearchForm();
+        if ($search_query = $this->SearchUtil->handleSearchForm($request, $search_form))
         {
-            $searchQuery = $search_form->getData()['Search'];
-            
             return $this->redirectToRoute('blog_results', array(
-                'query' => $searchQuery,
-            ));
+                'query' => $search_query,
+            ));    
         }
         
         return $this->render('Home/index.html.twig', array(

@@ -16,16 +16,19 @@ use App\Form\DeletePostType;
 use App\Form\SearchType;
 use App\Utils\Pagination\PaginationUtil;
 use App\Utils\Slugger\SluggerUtil;
+use App\Utils\Search\SearchUtil;
 
 class BlogController extends Controller
 {
     private $PaginationUtil;
     private $SluggerUtil;
+    private $SearchUtil;
     
-    public function __construct(PaginationUtil $PaginationUtil, SluggerUtil $SluggerUtil)
+    public function __construct(PaginationUtil $PaginationUtil, SluggerUtil $SluggerUtil, SearchUtil $SearchUtil)
     {
         $this->PaginationUtil = $PaginationUtil;
         $this->SluggerUtil = $SluggerUtil;
+        $this->SearchUtil = $SearchUtil;
     }
     
     /**
@@ -39,20 +42,16 @@ class BlogController extends Controller
         $posts = $this->PaginationUtil->findPaginated($page);
         $latestPosts = $entityManager->getRepository(Post::class)->findLatest();
         
-        $search_form = $this->createForm(SearchType::class);    
-        $search_form->handleRequest($request);
-        
-        if ($search_form->isSubmitted() && $search_form->isValid())
-        {
-            $searchQuery = $search_form->getData()['Search'];
-            
-            return $this->redirectToRoute('blog_results', array(
-                'query' => $searchQuery,
-            ));
-        }
-        
         $number_of_pages = $this->PaginationUtil->calculateNumberOfPages();
         
+        $search_form = $this->SearchUtil->createSearchForm();
+        if ($search_query = $this->SearchUtil->handleSearchForm($request, $search_form))
+        {
+            return $this->redirectToRoute('blog_results', array(
+                'query' => $search_query,
+            ));    
+        }
+
         return $this->render('Blog/index.html.twig', array(
             'posts' => $posts,
             'latestPosts' => $latestPosts,
@@ -109,16 +108,12 @@ class BlogController extends Controller
             'method' => 'DELETE',
         ));
         
-        $search_form = $this->createForm(SearchType::class);
-        $search_form->handleRequest($request);
-        
-        if ($search_form->isSubmitted() && $search_form->isValid())
+        $search_form = $this->SearchUtil->createSearchForm();
+        if ($search_query = $this->SearchUtil->handleSearchForm($request, $search_form))
         {
-            $searchQuery = $search_form->getData()['Search'];
-            
             return $this->redirectToRoute('blog_results', array(
-                'query' => $searchQuery,
-            ));
+                'query' => $search_query,
+            ));    
         }
         
         $entityManager = $this->getDoctrine()->getManager();
@@ -204,16 +199,12 @@ class BlogController extends Controller
         $latestPosts = $entityManager->getRepository(Post::class)->findLatest();
         $results = $entityManager->getRepository(Post::class)->findBasedOnSearchQuery($query);
         
-        $search_form = $this->createForm(SearchType::class);
-        $search_form->handleRequest($request);
-        
-        if ($search_form->isSubmitted() && $search_form->isValid())
+        $search_form = $this->SearchUtil->createSearchForm();
+        if ($search_query = $this->SearchUtil->handleSearchForm($request, $search_form))
         {
-            $searchQuery = $search_form->getData()['Search'];
-            
             return $this->redirectToRoute('blog_results', array(
-                'query' => $searchQuery,
-            ));
+                'query' => $search_query,
+            ));    
         }
         
         $no_results_message = "";
