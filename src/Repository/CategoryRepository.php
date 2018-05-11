@@ -18,4 +18,19 @@ class CategoryRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Category::class);
     }
+    
+    public function findPostsByCategory(Category $category)
+    {
+//        $entityManager = $this->getEntityManager();
+//        
+//        $query = $entityManager->createQuery(
+//            'SELECT c
+//            FROM App\Entity\Category c
+//            JOIN c.posts p
+//            WHERE c.id = :id'
+//        )->setParameter('id', $category->getId());
+//
+//        // returns an array of Post objects
+//        return $query->execute();
+    }
 }

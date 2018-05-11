@@ -50,7 +50,7 @@ class PostRepository extends ServiceEntityRepository
         $query = $entityManager->createQuery(
             'SELECT p
             FROM App\Entity\Post p
-            JOIN p.categories c
+            LEFT JOIN p.categories c
             WHERE p.body LIKE :searchquery
             OR p.introduction LIKE :searchquery
             OR p.title LIKE :searchquery

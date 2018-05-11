@@ -9,10 +9,19 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use App\Entity\Category;
+use App\Entity\Post;
+use App\Utils\Search\SearchUtil;
 use App\Form\CategoryType;
 
 class CategoryController extends Controller
 {
+    private $SearchUtil;
+    
+    public function __construct(SearchUtil $SearchUtil)
+    {
+        $this->SearchUtil = $SearchUtil;
+    }
+    
     /**
     * @Route("blog/category/new", name="category_create")
     * @Security("has_role('ROLE_ADMIN')")
@@ -43,10 +52,28 @@ class CategoryController extends Controller
     
     /**
     * @Route("blog/category/{name}", name="category_list", requirements={"name" = "^(?!new).+"})
-    * @Method({"GET"})
+    * @Method({"GET", "POST"})
     */
-    public function index()
+    public function index(Request $request, Category $category)
     {
-        return $this->render('Category/list.html.twig');
+//        $entityManager = $this->getDoctrine()->getManager();
+//        
+//        $results = $entityManager->getRepository(Category::class)->findPostsByCategory($category);
+//        $latestPosts = $entityManager->getRepository(Post::class)->findLatest();
+//        
+//        $search_form = $this->SearchUtil->createSearchForm();
+//        if ($search_query = $this->SearchUtil->handleSearchForm($request, $search_form))
+//        {
+//            return $this->redirectToRoute('blog_results', array(
+//                'query' => $search_query,
+//            ));    
+//        }
+        
+        return $this->render('Category/list.html.twig', array(
+            'category' => $category,
+//            'posts' => $results,
+//            'latestPosts' => $latestPosts,
+//            'search_form' => $search_form->createView(),
+        ));
     }
 }
