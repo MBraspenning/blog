@@ -190,6 +190,11 @@ body {
     margin-right: 8px;
 }
 
+.fa-tags {
+    font-size: .9em;
+    margin: 0 4px 0 6px;
+}
+
 .post-list-introduction {
     font-weight: 300;
 }
