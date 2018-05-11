@@ -207,3 +207,9 @@ body {
     color: #CF6766;
     text-decoration: none;
 }
+
+/* Add Post Form */
+
+#post_Categories label {
+    margin: 0 20px 0 10px;
+}
