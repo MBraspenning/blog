@@ -14,7 +14,7 @@ use App\Form\CategoryType;
 class CategoryController extends Controller
 {
     /**
-    * @Route("/category/new", name="category_create")
+    * @Route("blog/category/new", name="category_create")
     * @Security("has_role('ROLE_ADMIN')")
     * @Method({"GET", "POST"})
     */
@@ -39,5 +39,14 @@ class CategoryController extends Controller
         return $this->render('Category/new.html.twig', array(
             'form' => $form->createView(),
         ));
+    }
+    
+    /**
+    * @Route("blog/category/{name}", name="category_list", requirements={"name" = "^(?!new).+"})
+    * @Method({"GET"})
+    */
+    public function index()
+    {
+        return $this->render('Category/list.html.twig');
     }
 }

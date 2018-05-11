@@ -23,13 +23,13 @@ class Post
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
      */
-    private $Title;
+    private $title;
 
     /**
      * @ORM\Column(type="text")
      * @Assert\NotBlank()
      */
-    private $Body;
+    private $body;
 
     /**
      * @ORM\Column(type="date")
@@ -51,11 +51,11 @@ class Post
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Category", inversedBy="posts")
      */
-    private $Categories;
+    private $categories;
 
     public function __construct()
     {
-        $this->Categories = new ArrayCollection();
+        $this->categories = new ArrayCollection();
     }
 
     public function getId()
@@ -65,24 +65,24 @@ class Post
 
     public function getTitle(): ?string
     {
-        return $this->Title;
+        return $this->title;
     }
 
-    public function setTitle(string $Title): self
+    public function setTitle(string $title): self
     {
-        $this->Title = $Title;
+        $this->title = $title;
 
         return $this;
     }
 
     public function getBody(): ?string
     {
-        return $this->Body;
+        return $this->body;
     }
 
-    public function setBody(string $Body): self
+    public function setBody(string $body): self
     {
-        $this->Body = $Body;
+        $this->body = $body;
 
         return $this;
     }
@@ -128,13 +128,13 @@ class Post
      */
     public function getCategories(): Collection
     {
-        return $this->Categories;
+        return $this->categories;
     }
 
     public function addCategory(Category $category): self
     {
-        if (!$this->Categories->contains($category)) {
-            $this->Categories[] = $category;
+        if (!$this->categories->contains($category)) {
+            $this->categories[] = $category;
         }
 
         return $this;
@@ -142,8 +142,8 @@ class Post
 
     public function removeCategory(Category $category): self
     {
-        if ($this->Categories->contains($category)) {
-            $this->Categories->removeElement($category);
+        if ($this->categories->contains($category)) {
+            $this->categories->removeElement($category);
         }
 
         return $this;

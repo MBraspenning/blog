@@ -10,6 +10,17 @@
         <p class="post-list-dates">
             <i class="far fa-clock"></i>
             {{ post.dateAdded|date('d/m/Y') }}
+            
+            {% if post.categories|length >= 1 %}
+                <i class="fas fa-tags"></i>
+                {% for category in post.categories %}
+                    {% if not loop.last %}
+                        {{ category.name }},
+                    {% else %}
+                        {{ category.name }}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
         </p>
 
         <div class="post-show-introduction mb-3">

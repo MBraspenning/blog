@@ -98,7 +98,9 @@ class BlogController extends Controller
     }
     
     /**
-    * @Route("/blog/{date_added}/{slug}", name="blog_show", requirements={"date_added" = ".+", "date_added" = "^(?!edit)(?!results).+"})
+    * @Route("/blog/{date_added}/{slug}", 
+        name="blog_show", 
+        requirements={"date_added" = ".+", "date_added" = "^(?!edit)(?!results)(?!category).+"})
     * @ParamConverter("date_added", options={"format": "Y/m/d"})
     * @Method({"GET", "POST"})
     */

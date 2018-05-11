@@ -48,11 +48,13 @@ class PostRepository extends ServiceEntityRepository
         $entityManager = $this->getEntityManager();
         
         $query = $entityManager->createQuery(
-            'SELECT p.id, p.Title, p.Body, p.date_added, p.slug, p.introduction
+            'SELECT p
             FROM App\Entity\Post p
-            WHERE p.Body LIKE :searchquery
+            JOIN p.categories c
+            WHERE p.body LIKE :searchquery
             OR p.introduction LIKE :searchquery
-            OR p.Title LIKE :searchquery
+            OR p.title LIKE :searchquery
+            OR c.name LIKE :searchquery
             ORDER BY p.id DESC'
         )->setParameter('searchquery', '%'.$searchquery.'%');
 

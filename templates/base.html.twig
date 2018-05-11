@@ -82,7 +82,7 @@
                             <ul class="sidebar-list">
                                 {% for post in latestPosts %}
                                     <li class="sidebar-list-item">
-                                        <a class="sidebar-list-item-link" href="{{ path('blog_show', { 'date_added':post.dateAdded|date('Y/m/d'), 'slug': post.slug }) }}">
+                                        <a class="sidebar-list-item-link" href="{{ path('blog_show', { 'date_added': post.dateAdded|date('Y/m/d'), 'slug': post.slug }) }}">
                                             <i class="fas fa-angle-right"></i>{{ post.title }}
                                         </a>
                                     </li>
@@ -93,7 +93,7 @@
                             <ul class="sidebar-list">
                                 {% for category in categories %}
                                     <li class="sidebar-list-item">
-                                        <a class="sidebar-list-item-link" href="">
+                                        <a class="sidebar-list-item-link" href="{{ path('category_list', { 'name': category.name }) }}">
                                             <i class="fas fa-angle-right"></i>{{ category.name }}
                                         </a>
                                     </li>
