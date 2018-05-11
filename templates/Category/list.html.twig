@@ -1,9 +1,40 @@
-{% extends 'base.html.twig' %}
+{% extends 'Blog/index.html.twig' %}
 
-{% set active = 'blog' %}
+{% set number_of_pages = 0 %}
 
-{% block body %}
+{% block content %}    
+    <h5 class="post-list-headers mb-3">
+        <a href="{{ path('blog_show', { 'date_added': post.dateAdded|date('Y/m/d'), 'slug': post.slug } ) }}">
+        {{ post.title }}
+        </a>
+    </h5>
+    <p class="post-list-dates">
+        <i class="far fa-clock"></i>{{ post.dateAdded|date('d/m/Y') }}
+        {% if post.categories|length >= 1 %}
+            <i class="fas fa-tags"></i>
+            {% for category in post.categories %}
+                {% if not loop.last %}
+                        <a class="blog-list-tag" href="{{ path('category_list', { 'name': category.name }) }}">
+                            {{ category.name }}
+                        </a>
+                        ,
+                    {% else %}
+                        <a class="blog-list-tag" href="{{ path('category_list', { 'name': category.name }) }}">
+                            {{ category.name }}
+                        </a>
+                    {% endif %}
+            {% endfor %}
+        {% endif %}
+    </p>
+    <div class="post-list-introduction">
+        {{ 
+           post.introduction|striptags
+            ('<p>,<u>,<strong>,<h1>,<h2>,<h3>,<h4>,<h5>,<h6>')
+            |raw  
+        }}   
+    </div>
 
-    <h1>{{ category.name }}</h1>
-
-{% endblock %}
+    <a href="{{ path('blog_show', { 'date_added': post.dateAdded|date('Y/m/d'), 'slug': post.slug } ) }}">
+        <button class="buttons float-right">Read More</button> 
+    </a>      
+{% endblock %} 

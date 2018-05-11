@@ -56,24 +56,26 @@ class CategoryController extends Controller
     */
     public function index(Request $request, Category $category)
     {
-//        $entityManager = $this->getDoctrine()->getManager();
-//        
-//        $results = $entityManager->getRepository(Category::class)->findPostsByCategory($category);
-//        $latestPosts = $entityManager->getRepository(Post::class)->findLatest();
-//        
-//        $search_form = $this->SearchUtil->createSearchForm();
-//        if ($search_query = $this->SearchUtil->handleSearchForm($request, $search_form))
-//        {
-//            return $this->redirectToRoute('blog_results', array(
-//                'query' => $search_query,
-//            ));    
-//        }
+        $entityManager = $this->getDoctrine()->getManager();
+        
+        $results = $entityManager->getRepository(Category::class)->findPostsByCategory($category);
+        $latestPosts = $entityManager->getRepository(Post::class)->findLatest();
+        $categories = $entityManager->getRepository(Category::class)->findAll();
+        
+        $search_form = $this->SearchUtil->createSearchForm();
+        if ($search_query = $this->SearchUtil->handleSearchForm($request, $search_form))
+        {
+            return $this->redirectToRoute('blog_results', array(
+                'query' => $search_query,
+            ));    
+        }
         
         return $this->render('Category/list.html.twig', array(
             'category' => $category,
-//            'posts' => $results,
-//            'latestPosts' => $latestPosts,
-//            'search_form' => $search_form->createView(),
+            'categories' => $categories,
+            'posts' => $results,
+            'latestPosts' => $latestPosts,
+            'search_form' => $search_form->createView(),
         ));
     }
 }
