@@ -15,9 +15,14 @@
                 <i class="fas fa-tags"></i>
                 {% for category in post.categories %}
                     {% if not loop.last %}
-                        {{ category.name }},
+                        <a class="blog-list-tag" href="{{ path('category_list', { 'name': category.name }) }}">
+                            {{ category.name }}
+                        </a>
+                        ,
                     {% else %}
-                        {{ category.name }}
+                        <a class="blog-list-tag" href="{{ path('category_list', { 'name': category.name }) }}">
+                            {{ category.name }}
+                        </a>
                     {% endif %}
                 {% endfor %}
             {% endif %}

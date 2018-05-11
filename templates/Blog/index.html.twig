@@ -21,9 +21,14 @@
                                 <i class="fas fa-tags"></i>
                                 {% for category in post.categories %}
                                     {% if not loop.last %}
-                                        {{ category.name }},
+                                        <a class="blog-list-tag" href="{{ path('category_list', { 'name': category.name }) }}">
+                                            {{ category.name }}    
+                                        </a>
+                                        ,
                                     {% else %}
-                                        {{ category.name }}
+                                        <a class="blog-list-tag" href="{{ path('category_list', { 'name': category.name }) }}">
+                                            {{ category.name }}    
+                                        </a>                                        
                                     {% endif %}
                                 {% endfor %}
                             {% endif %}
@@ -117,7 +122,7 @@
                     <ul class="sidebar-list">
                         {% for category in categories %}
                             <li class="sidebar-list-item">
-                                <a class="sidebar-list-item-link" href="">
+                                <a class="sidebar-list-item-link" href="{{ path('category_list', { 'name': category.name }) }}">
                                     <i class="fas fa-angle-right"></i>{{ category.name }}
                                 </a>
                             </li>
