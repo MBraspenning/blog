@@ -34,8 +34,8 @@ class PostRepository extends ServiceEntityRepository
     {
         $entityManager = $this->getEntityManager();
      
-        $pagination_offset = ($page - 1) * PaginationParameters::PaginationMax;
-        
+        $pagination_offset = (($page - 1) * PaginationParameters::PaginationMax);
+
         $query = $entityManager->createQuery(
             'SELECT p
             FROM App\Entity\Post p

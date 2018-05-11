@@ -205,7 +205,10 @@ class BlogController extends Controller
         $entityManager = $this->getDoctrine()->getManager();
         $latestPosts = $entityManager->getRepository(Post::class)->findLatest();
         $categories = $entityManager->getRepository(Category::class)->findAll();
-        $results = $entityManager->getRepository(Post::class)->findBasedOnSearchQuery($query, $page);
+        
+        // Change to findBasedOnSearchQuery to include pagination 
+        // Don't forget to remove 'set number_of_pages = 0' in twig
+        $results = $entityManager->getRepository(Post::class)->findAllBasedOnSearchQuery($query);
         
         $number_of_pages = $this->PaginationUtil->calculateNumberOfPages("results", $query);
         
