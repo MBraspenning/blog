@@ -6,11 +6,12 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use App\Entity\Post;
+use App\Entity\Category;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PostType extends AbstractType
@@ -21,11 +22,11 @@ class PostType extends AbstractType
             ->add('Title', TextType::class)
             ->add('introduction', CKEditorType::class)
             ->add('Body', CKEditorType::class)
-            ->add('Categories', ChoiceType::class, array(
-                'choices' => array(
-                    'test' => 'test',
-                    'PHP' => 'PHP'
-                ),
+            ->add('Categories', EntityType::class, array(
+                'class' => Category::class,
+                'choice_label' => 'name',
+                'multiple' => true,
+                'expanded' => true
             ))
             ->add('submit', SubmitType::class, array('label' => 'Add Post'));
     }
