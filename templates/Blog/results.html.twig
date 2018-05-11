@@ -1,7 +1,5 @@
 {% extends 'Blog/index.html.twig' %}
 
-{% set number_of_pages = 0 %}
-
 {% block content %}    
     <h5 class="post-list-headers mb-3">
         <a href="{{ path('blog_show', { 'date_added': post.dateAdded|date('Y/m/d'), 'slug': post.slug } ) }}">
@@ -40,4 +38,28 @@
 {% endblock %} 
 
 {% block pagination %}
+<div class="row pagination-row mb-5">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6">
+                {% if app.request.get('page') > 1 %}
+                    <div class="newer-posts">
+                        <a href="{{ path('blog_results', {'query': search_query, 'page': app.request.get('page') - 1}) }}">
+                            Newer Posts
+                        </a>
+                    </div> 
+                {% endif %}
+            </div>
+            <div class="col-md-6 float-right">
+                {% if app.request.get('page') < number_of_pages %}
+                    <div class="older-posts text-right">
+                        <a href="{{ path('blog_results', {'query': search_query, 'page': app.request.get('page') + 1}) }}">
+                            Older Posts
+                        </a>
+                    </div> 
+                {% endif %}
+            </div>
+        </div>
+    </div>       
+</div>
 {% endblock %}

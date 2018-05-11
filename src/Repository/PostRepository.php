@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Post;
+use App\Utils\Pagination\PaginationParameters;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -19,20 +20,6 @@ class PostRepository extends ServiceEntityRepository
         parent::__construct($registry, Post::class);
     }
     
-    public function findPaginated($page)
-    {
-        $pagination_max = 5;
-        $pagination_offset = ($page - 1) * $pagination_max;
-        
-        $query = $this->createQueryBuilder('post')
-            ->setMaxResults($pagination_max)
-            ->setFirstResult($pagination_offset)
-            ->orderBy('post.id', 'DESC')
-            ->getQuery();
-        
-        return $query->getResult();
-    }
-    
     public function findLatest()
     {
         return $this->findBy(array(), array('id' => 'DESC'), 5);
@@ -43,9 +30,11 @@ class PostRepository extends ServiceEntityRepository
         return $this->findBy(array(), array('id' => 'DESC'));
     }
     
-    public function findBasedOnSearchQuery(string $searchquery)
+    public function findBasedOnSearchQuery(string $searchquery, int $page)
     {
         $entityManager = $this->getEntityManager();
+     
+        $pagination_offset = ($page - 1) * PaginationParameters::PaginationMax;
         
         $query = $entityManager->createQuery(
             'SELECT p
@@ -55,8 +44,29 @@ class PostRepository extends ServiceEntityRepository
             OR p.introduction LIKE :searchquery
             OR p.title LIKE :searchquery
             OR c.name LIKE :searchquery
-            ORDER BY p.id DESC'
-        )->setParameter('searchquery', '%'.$searchquery.'%');
+            ORDER BY p.id DESC')
+        ->setParameter('searchquery', '%'.$searchquery.'%')
+        ->setMaxResults(PaginationParameters::PaginationMax)
+        ->setFirstResult($pagination_offset);
+
+        // returns an array of Post objects
+        return $query->execute();
+    }
+    
+    public function findAllBasedOnSearchQuery(string $searchquery)
+    {
+        $entityManager = $this->getEntityManager();
+             
+        $query = $entityManager->createQuery(
+            'SELECT p
+            FROM App\Entity\Post p
+            LEFT JOIN p.categories c
+            WHERE p.body LIKE :searchquery
+            OR p.introduction LIKE :searchquery
+            OR p.title LIKE :searchquery
+            OR c.name LIKE :searchquery
+            ORDER BY p.id DESC')
+        ->setParameter('searchquery', '%'.$searchquery.'%');
 
         // returns an array of Post objects
         return $query->execute();

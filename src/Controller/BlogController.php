@@ -44,7 +44,7 @@ class BlogController extends Controller
         $categories = $entityManager->getRepository(Category::class)->findAll();
         $latestPosts = $entityManager->getRepository(Post::class)->findLatest();
         
-        $number_of_pages = $this->PaginationUtil->calculateNumberOfPages();
+        $number_of_pages = $this->PaginationUtil->calculateNumberOfPages("index");
         
         $search_form = $this->SearchUtil->createSearchForm();
         if ($search_query = $this->SearchUtil->handleSearchForm($request, $search_form))
@@ -197,15 +197,17 @@ class BlogController extends Controller
     }
     
     /**
-    * @Route("/blog/results/{query}", name="blog_results")
+    * @Route("/blog/results/{query}/{page}", name="blog_results", requirements={"page" = "\d+"})
     * @Method({"GET", "POST"})
     */
-    public function results(Request $request, $query)
+    public function results(Request $request, string $query, int $page = 1)
     {
         $entityManager = $this->getDoctrine()->getManager();
         $latestPosts = $entityManager->getRepository(Post::class)->findLatest();
         $categories = $entityManager->getRepository(Category::class)->findAll();
-        $results = $entityManager->getRepository(Post::class)->findBasedOnSearchQuery($query);
+        $results = $entityManager->getRepository(Post::class)->findBasedOnSearchQuery($query, $page);
+        
+        $number_of_pages = $this->PaginationUtil->calculateNumberOfPages("results", $query);
         
         $search_form = $this->SearchUtil->createSearchForm();
         if ($search_query = $this->SearchUtil->handleSearchForm($request, $search_form))
@@ -237,6 +239,7 @@ class BlogController extends Controller
             'search_form' => $search_form->createView(),
             'latestPosts' => $latestPosts,
             'categories' => $categories,
+            'number_of_pages' => $number_of_pages,
         ));
     }
 }

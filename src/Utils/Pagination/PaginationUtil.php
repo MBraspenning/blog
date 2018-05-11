@@ -30,8 +30,15 @@ class PaginationUtil
         return $query->getResult();
     }
     
-    public function calculateNumberOfPages()
+    public function calculateNumberOfPages(string $asking_page, $query = NULL)
     {
-        return ceil(count($this->repository->findAll()) / PaginationParameters::PaginationMax);    
+        if ($asking_page === "index") 
+        {
+            return ceil(count($this->repository->findAll()) / PaginationParameters::PaginationMax);        
+        }
+        if ($asking_page === "results")
+        {
+            return ceil(count($this->repository->findAllBasedOnSearchQuery($query)) / PaginationParameters::PaginationMax);
+        }
     } 
 }
