@@ -2,7 +2,11 @@
 
 {% set number_of_pages = 0 %}
 
-{% block content %}    
+{% block content %}  
+    {% if loop.first %}
+        <h3 class="post-list-headers mb-4">Search results for "{{ search_query }}"</h3>
+        <hr class="mb-4">
+    {% endif %}
     <h5 class="post-list-headers mb-3">
         <a href="{{ path('blog_show', { 'date_added': post.dateAdded|date('Y/m/d'), 'slug': post.slug } ) }}">
         {{ post.title }}
