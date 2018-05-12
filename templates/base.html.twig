@@ -118,6 +118,8 @@
         {% endblock %}
         </div>
         
-        {% block javascripts %}{% endblock %}
+        {% block javascripts %}
+            <script src="{{ asset("scripts/responsive.js") }}"></script>
+        {% endblock %}
     </body>
 </html>
