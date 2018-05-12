@@ -1,3 +1,14 @@
+.fa-bars {
+    color: white;
+    cursor: pointer;
+    font-size: 1.2em;
+    line-height: 28px;
+}
+
+.fa-bars:hover {
+    color: #CF6766;
+}
+
 @media screen and (max-width: 768px) {
     .side-bar {
         padding: 0;
