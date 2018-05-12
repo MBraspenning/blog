@@ -1,0 +1,10 @@
+@media screen and (max-width: 768px) {
+    .side-bar {
+        padding: 0;
+        margin-top: 20px;
+    }
+    
+    .pagination-row {
+        margin-bottom: .225rem!important;
+    }
+}
