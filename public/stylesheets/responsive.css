@@ -7,4 +7,18 @@
     .pagination-row {
         margin-bottom: .225rem!important;
     }
+    
+    .side-bar-nav {
+        height: 0;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .wrapper {
+        padding: 0 15px;
+    }
+    
+    .post-show-header {
+        font-size: 1.4rem!important;
+    }
 }
