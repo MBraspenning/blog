@@ -18,18 +18,27 @@ use App\Form\SearchType;
 use App\Utils\Pagination\PaginationUtil;
 use App\Utils\Slugger\SluggerUtil;
 use App\Utils\Search\SearchUtil;
+use App\Utils\Tagger\TaggerUtil;
 
 class BlogController extends Controller
 {
     private $PaginationUtil;
     private $SluggerUtil;
     private $SearchUtil;
+    private $TaggerUtil;
     
-    public function __construct(PaginationUtil $PaginationUtil, SluggerUtil $SluggerUtil, SearchUtil $SearchUtil)
+    public function __construct
+    (
+        PaginationUtil $PaginationUtil, 
+        SluggerUtil $SluggerUtil, 
+        SearchUtil $SearchUtil, 
+        TaggerUtil $TaggerUtil
+    )
     {
         $this->PaginationUtil = $PaginationUtil;
         $this->SluggerUtil = $SluggerUtil;
         $this->SearchUtil = $SearchUtil;
+        $this->TaggerUtil = $TaggerUtil;
     }
     
     /**
@@ -82,9 +91,11 @@ class BlogController extends Controller
         {
             $slug = $this->SluggerUtil->makeSlug($form->getData()->getTitle());
             $post->setSlug($slug);
+            $tags = $this->TaggerUtil->makeTags($form->getData()->getCategories());
+            $post->setTags($tags);
             
             $post = $form->getData();
-            
+                        
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($post);
             $entityManager->flush();
@@ -148,10 +159,10 @@ class BlogController extends Controller
         
         if ($form->isSubmitted() && $form->isValid())
         {
-            $slug = strtolower($form->getData()->getTitle());
-            $slug = preg_replace("/[^a-z0-9_\s-]/", "", $slug);
-            $slug = preg_replace("/[\s_]/", "-", $slug);
+            $slug = $this->SluggerUtil->makeSlug($form->getData()->getTitle());
             $post->setSlug($slug);
+            $tags = $this->TaggerUtil->makeTags($form->getData()->getCategories());
+            $post->setTags($tags);
             
             $post = $form->getData();
             

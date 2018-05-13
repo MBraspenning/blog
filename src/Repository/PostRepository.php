@@ -42,7 +42,8 @@ class PostRepository extends ServiceEntityRepository
             ->andWhere(
                 'p.body LIKE :searchquery
                 OR p.introduction LIKE :searchquery
-                OR p.title LIKE :searchquery')
+                OR p.title LIKE :searchquery
+                OR p.tags LIKE :searchquery')
             ->setParameter('searchquery', '%'.$searchquery.'%')
             ->setMaxResults(PaginationParameters::PaginationMax)
             ->setFirstResult($pagination_offset)
@@ -62,7 +63,8 @@ class PostRepository extends ServiceEntityRepository
             ->andWhere(
                 'p.body LIKE :searchquery
                 OR p.introduction LIKE :searchquery
-                OR p.title LIKE :searchquery')
+                OR p.title LIKE :searchquery
+                OR p.tags LIKE :searchquery')
             ->setParameter('searchquery', '%'.$searchquery.'%')
             ->orderBy('p.id', 'DESC');
 
