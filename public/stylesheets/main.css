@@ -10,6 +10,10 @@ body {
     margin: 0 auto;
 }
 
+#body {
+    min-height: calc(100vh - 212px);
+}
+
 /* Navigation */
 
 #navigation {
@@ -79,6 +83,7 @@ body {
 .side-bar {
     margin-top: 40px;
     padding-left: 40px;
+    margin-bottom: 40px;
 }
 
 .side-bar h6 {
@@ -228,4 +233,29 @@ body {
 
 #post_Categories label {
     margin: 0 20px 0 10px;
+}
+
+/* Footer */
+
+.footer {
+    background-color: #30415D;
+    height: 106px;
+}
+
+.footer a {
+    float: right;
+}
+
+.footer .row {
+    vertical-align:center;
+    line-height:106px;
+}
+
+.fa-linkedin-in {
+    color: white;
+    font-size: 1.8em;
+}
+
+.fa-linkedin-in:hover {
+    color: #CF6766;
 }
