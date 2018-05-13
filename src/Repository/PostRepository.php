@@ -35,40 +35,38 @@ class PostRepository extends ServiceEntityRepository
         $entityManager = $this->getEntityManager();
      
         $pagination_offset = (($page - 1) * PaginationParameters::PaginationMax);
-
-        $query = $entityManager->createQuery(
-            'SELECT p
-            FROM App\Entity\Post p
-            LEFT JOIN p.categories c
-            WHERE p.body LIKE :searchquery
-            OR p.introduction LIKE :searchquery
-            OR p.title LIKE :searchquery
-            OR c.name LIKE :searchquery
-            ORDER BY p.id DESC')
-        ->setParameter('searchquery', '%'.$searchquery.'%')
-        ->setMaxResults(PaginationParameters::PaginationMax)
-        ->setFirstResult($pagination_offset);
-
+        
+        $query = $entityManager->createQueryBuilder('p')
+            ->select('p')
+            ->from('App\Entity\Post', 'p')
+            ->andWhere(
+                'p.body LIKE :searchquery
+                OR p.introduction LIKE :searchquery
+                OR p.title LIKE :searchquery')
+            ->setParameter('searchquery', '%'.$searchquery.'%')
+            ->setMaxResults(PaginationParameters::PaginationMax)
+            ->setFirstResult($pagination_offset)
+            ->orderBy('p.id', 'DESC');
+        
         // returns an array of Post objects
-        return $query->execute();
+        return $query->getQuery()->execute();
     }
     
     public function findAllBasedOnSearchQuery(string $searchquery)
     {
         $entityManager = $this->getEntityManager();
              
-        $query = $entityManager->createQuery(
-            'SELECT p
-            FROM App\Entity\Post p
-            LEFT JOIN p.categories c
-            WHERE p.body LIKE :searchquery
-            OR p.introduction LIKE :searchquery
-            OR p.title LIKE :searchquery
-            OR c.name LIKE :searchquery
-            ORDER BY p.id DESC')
-        ->setParameter('searchquery', '%'.$searchquery.'%');
+        $query = $entityManager->createQueryBuilder('p')
+            ->select('p')
+            ->from('App\Entity\Post', 'p')
+            ->andWhere(
+                'p.body LIKE :searchquery
+                OR p.introduction LIKE :searchquery
+                OR p.title LIKE :searchquery')
+            ->setParameter('searchquery', '%'.$searchquery.'%')
+            ->orderBy('p.id', 'DESC');
 
         // returns an array of Post objects
-        return $query->execute();
+        return $query->getQuery()->execute();
     }
 }

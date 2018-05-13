@@ -31,7 +31,7 @@ class PaginationUtil
     }
     
     public function calculateNumberOfPages(string $asking_page, $query = NULL)
-    {
+    {   
         if ($asking_page === "index") 
         {
             return ceil(count($this->repository->findAll()) / PaginationParameters::PaginationMax);        

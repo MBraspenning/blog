@@ -1,7 +1,5 @@
 {% extends 'Blog/index.html.twig' %}
 
-{% set number_of_pages = 0 %}
-
 {% block content %}  
     {% if loop.first %}
         <h3 class="post-list-headers mb-4">Search results for "{{ search_query }}"</h3>
