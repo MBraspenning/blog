@@ -50,7 +50,7 @@
     <hr class="mt-4">
     
     <div class="row btn-row mt-4">
-        <div class="col-md-6 btn-col">
+        <div class="col-6 btn-col">
             <button class="buttons">
                 <a href="{{ path('blog_edit', { 'date_added':post.dateAdded|date('Y/m/d'), 'slug': post.slug }) }}">
                     Edit Post
@@ -58,7 +58,7 @@
             </button>    
         </div>
         
-        <div class="col-md-6 btn-col text-right">
+        <div class="col-6 btn-col text-right">
             {{ form_start(delete_form) }}
             {{ form_widget(delete_form.submit, {'attr': {'class': 'buttons'}}) }}
             {{ form_end(delete_form) }}        

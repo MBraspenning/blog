@@ -82,4 +82,8 @@
     .post-show-header {
         font-size: 1.4rem!important;
     }
+    
+    .buttons {
+        width: 120px;
+    }
 }
