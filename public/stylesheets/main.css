@@ -259,3 +259,22 @@ body {
 .fa-linkedin-in:hover {
     color: #CF6766;
 }
+
+/* Admin Category */
+
+#categories-admin-list {
+    list-style: none;
+    padding: 0;
+}
+
+.categories-admin-list-item form{
+    display: inline;
+}
+
+.delete-category-buttons {
+    display: inline;
+    border: none;
+    background-color: inherit;
+    cursor: pointer;
+    color: #CF6766;
+}

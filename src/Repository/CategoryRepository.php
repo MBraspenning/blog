@@ -55,4 +55,16 @@ class CategoryRepository extends ServiceEntityRepository
         // returns an array of Post objects
         return $query->execute();
     }
+    
+    public function removeCategory(Category $category)
+    {
+        $entityManager = $this->getEntityManager();
+        
+        $query = $entityManager->createQuery(
+            'DELETE FROM App\Entity\Category c
+            WHERE c.id = :id')
+        ->setParameter('id', $category->getId());
+        
+        return $query->execute();
+    }
 }

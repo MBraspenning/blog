@@ -4,18 +4,14 @@
 
 {% block body %}
 
-<h1 class="mt-4">Categories</h1>
+<h1 class="mt-4 mb-4">Categories</h1>
 
-<ul>
-
-{{ dump(categories[0]) }}
-
+<ul id="categories-admin-list">
 {% for category in categories %}
-    <li>
+    <li class="categories-admin-list-item">
         {{ category.name }}   
-        {{ dump(delete_forms[loop.index0]) }}
         {{ form_start(delete_forms[loop.index0]) }}
-        {{ form_widget(delete_forms[loop.index0].submit, {'attr': {'class': 'buttons'}}) }}
+        {{ form_widget(delete_forms[loop.index0].submit, {'attr': {'class': 'delete-category-buttons'}}) }}
         {{ form_end(delete_forms[loop.index0]) }}
     </li>
 {% endfor %}

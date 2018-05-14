@@ -118,26 +118,6 @@ class CategoryController extends Controller
         ));
     }
     
-//    /**
-//    * @Route("blog/category/admin/{id}", name="category_admin")
-//    * @Security("has_role('ROLE_ADMIN')")
-//    * @Method({"GET", "POST"})
-//    */
-//    public function show(Request $request, Category $category)
-//    {
-//        $delete_form = $this->createForm(DeleteCategoryType::class, $category, array(
-//                'action' => $this->generateUrl('category_delete', array(
-//                    'id' => $category->getId(),
-//                )),
-//                'method' => 'DELETE',
-//            ));
-//        
-//        return $this->render('Category/show.html.twig', array(
-//            'category' => $category,
-//            'delete_form' => $delete_form->createView(),
-//        ));
-//    }
-    
     /**
     * @Route("blog/category/{name}", name="category_delete")
     * @Security("has_role('ROLE_ADMIN')")
@@ -155,7 +135,9 @@ class CategoryController extends Controller
         
         if ($form->isSubmitted() && $form->isValid())
         {
-            $this->CategoryService->remove($category);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->getRepository(Post::class)->removeTags($category->getName());
+            $entityManager->getRepository(Category::class)->removeCategory($category);
         }
         
         return $this->redirectToRoute('blog_index');

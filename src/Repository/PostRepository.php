@@ -71,4 +71,18 @@ class PostRepository extends ServiceEntityRepository
         // returns an array of Post objects
         return $query->getQuery()->execute();
     }
+    
+    public function removeTags(string $category_name)
+    {
+        $entityManager = $this->getEntityManager();
+        
+        $queryBuilder = $entityManager->createQueryBuilder();
+        $query = $queryBuilder
+            ->update('App\Entity\Post', 'p')
+            ->set('p.tags', $queryBuilder->expr()->literal(null))
+            ->where('p.tags LIKE :categoryname')
+            ->setParameter('categoryname', '%'.$category_name.'%');
+        
+        return $query->getQuery()->execute();
+    }
 }
