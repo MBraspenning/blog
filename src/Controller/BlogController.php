@@ -19,6 +19,7 @@ use App\Utils\Pagination\PaginationUtil;
 use App\Utils\Slugger\SluggerUtil;
 use App\Utils\Search\SearchUtil;
 use App\Utils\Tagger\TaggerUtil;
+use App\Service\PostService;
 
 class BlogController extends Controller
 {
@@ -26,19 +27,22 @@ class BlogController extends Controller
     private $SluggerUtil;
     private $SearchUtil;
     private $TaggerUtil;
+    private $PostService;
     
     public function __construct
     (
         PaginationUtil $PaginationUtil, 
         SluggerUtil $SluggerUtil, 
         SearchUtil $SearchUtil, 
-        TaggerUtil $TaggerUtil
+        TaggerUtil $TaggerUtil,
+        PostService $PostService
     )
     {
         $this->PaginationUtil = $PaginationUtil;
         $this->SluggerUtil = $SluggerUtil;
         $this->SearchUtil = $SearchUtil;
         $this->TaggerUtil = $TaggerUtil;
+        $this->PostService = $PostService;
     }
     
     /**
@@ -84,7 +88,6 @@ class BlogController extends Controller
         $post->setDateAdded(new \DateTime(date('Y-m-d')));
         
         $form = $this->createForm(PostType::class, $post);
-        
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid())
@@ -96,9 +99,7 @@ class BlogController extends Controller
             
             $post = $form->getData();
                         
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($post);
-            $entityManager->flush();
+            $this->PostService->persist($post);
             
             return $this->redirectToRoute('blog_index');
         }
@@ -166,9 +167,7 @@ class BlogController extends Controller
             
             $post = $form->getData();
             
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($post);
-            $entityManager->flush();
+            $this->PostService->persist($post);
             
             return $this->redirectToRoute('blog_show', array(
                 'date_added' => $post->getDateAdded()->format('Y/m/d'),
@@ -199,9 +198,7 @@ class BlogController extends Controller
         
         if ($form->isSubmitted() && $form->isValid())
         {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($post);
-            $entityManager->flush();
+            $this->PostService->remove($post);
         }
         
         return $this->redirectToRoute('blog_index');
@@ -230,9 +227,7 @@ class BlogController extends Controller
                 'query' => $search_query,
             ));    
         }
-        
-        $no_results_message = "";
-        
+                
         if (count($results) === 0) 
         {
             $no_results_message = "No results found for \"" . $query . "\". Try again?";

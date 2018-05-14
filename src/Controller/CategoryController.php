@@ -14,16 +14,19 @@ use App\Entity\Post;
 use App\Utils\Search\SearchUtil;
 use App\Utils\Pagination\PaginationUtil;
 use App\Form\CategoryType;
+use App\Service\CategoryService;
 
 class CategoryController extends Controller
 {
     private $SearchUtil;
     private $PaginationUtil;
+    private $CategoryService;
     
-    public function __construct(SearchUtil $SearchUtil, PaginationUtil $PaginationUtil)
+    public function __construct(SearchUtil $SearchUtil, PaginationUtil $PaginationUtil, CategoryService $CategoryService)
     {
         $this->SearchUtil = $SearchUtil;
         $this->PaginationUtil = $PaginationUtil;
+        $this->CategoryService = $CategoryService;
     }
     
     /**
@@ -42,9 +45,7 @@ class CategoryController extends Controller
         {
             $category = $form->getData();
             
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($category);
-            $entityManager->flush();
+            $this->CategoryService->persist($category);
             
             return $this->redirectToRoute('blog_index');
         }
@@ -63,7 +64,7 @@ class CategoryController extends Controller
         $entityManager = $this->getDoctrine()->getManager();
         
         $results = $entityManager->getRepository(Category::class)->findPostsByCategory($category, $page);
-        dump($results);
+        
         $latestPosts = $entityManager->getRepository(Post::class)->findLatest();
         $categories = $entityManager->getRepository(Category::class)->findAll();
         
