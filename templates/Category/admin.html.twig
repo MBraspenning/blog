@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% set active = 'admin' %}
+
+{% block body %}
+
+<h1 class="mt-4">Categories</h1>
+
+<ul>
+
+{{ dump(categories[0]) }}
+
+{% for category in categories %}
+    <li>
+        {{ category.name }}   
+        {{ dump(delete_forms[loop.index0]) }}
+        {{ form_start(delete_forms[loop.index0]) }}
+        {{ form_widget(delete_forms[loop.index0].submit, {'attr': {'class': 'buttons'}}) }}
+        {{ form_end(delete_forms[loop.index0]) }}
+    </li>
+{% endfor %}
+</ul>
+
+{% endblock %}
