@@ -3,6 +3,7 @@
 namespace App\Utils\Pagination;
 
 use App\Entity\Post;
+use App\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -39,6 +40,10 @@ class PaginationUtil
         if ($asking_page === "results")
         {
             return ceil(count($this->repository->findAllBasedOnSearchQuery($query)) / PaginationParameters::PaginationMax);
+        }
+        if ($asking_page === "category")
+        {
+            return ceil(count($this->entityManager->getRepository(Category::class)->findAllPostsByCategory($query)) / PaginationParameters::PaginationMax);
         }
     } 
 }

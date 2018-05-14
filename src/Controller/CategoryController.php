@@ -8,18 +8,22 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use App\Entity\Category;
 use App\Entity\Post;
 use App\Utils\Search\SearchUtil;
+use App\Utils\Pagination\PaginationUtil;
 use App\Form\CategoryType;
 
 class CategoryController extends Controller
 {
     private $SearchUtil;
+    private $PaginationUtil;
     
-    public function __construct(SearchUtil $SearchUtil)
+    public function __construct(SearchUtil $SearchUtil, PaginationUtil $PaginationUtil)
     {
         $this->SearchUtil = $SearchUtil;
+        $this->PaginationUtil = $PaginationUtil;
     }
     
     /**
@@ -51,16 +55,19 @@ class CategoryController extends Controller
     }
     
     /**
-    * @Route("blog/category/{name}", name="category_list", requirements={"name" = "^(?!new).+"})
+    * @Route("blog/category/{name}/{page}", name="category_list", requirements={"page" = "\d+"})
     * @Method({"GET", "POST"})
     */
-    public function index(Request $request, Category $category)
+    public function index(Request $request, Category $category, int $page = 1)
     {
         $entityManager = $this->getDoctrine()->getManager();
         
-        $results = $entityManager->getRepository(Category::class)->findPostsByCategory($category);
+        $results = $entityManager->getRepository(Category::class)->findPostsByCategory($category, $page);
+        dump($results);
         $latestPosts = $entityManager->getRepository(Post::class)->findLatest();
         $categories = $entityManager->getRepository(Category::class)->findAll();
+        
+        $number_of_pages = $this->PaginationUtil->calculateNumberOfPages("category", $category);
         
         $search_form = $this->SearchUtil->createSearchForm();
         if ($search_query = $this->SearchUtil->handleSearchForm($request, $search_form))
@@ -76,6 +83,7 @@ class CategoryController extends Controller
             'posts' => $results,
             'latestPosts' => $latestPosts,
             'search_form' => $search_form->createView(),
+            'number_of_pages' => $number_of_pages,
         ));
     }
 }
